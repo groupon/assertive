@@ -1,0 +1,26 @@
+{ "name": "assertive"
+, "version": "1.2.0"
+, "author": "Johan Sundström <jsundstrom@groupon.com>"
+, "contributors":
+  [ "Sean Massa <smassa@groupon.com>"
+  ]
+, "description": "Assertive is a terse yet expressive assertion library, designed and ideally suited for coffee-script"
+, "repository":
+  { "type": "git"
+  , "url": "git://github.com/groupon/assertive"
+  }
+, "main": "lib/assertive.js"
+, "scripts":
+  { "test": "make test"
+  }
+, "dependencies":
+  { "underscore": "1.5.1"
+  }
+, "devDependencies":
+  { "mocha": "1.8.2"
+  , "coffee-script-redux": "2.0.0-beta7"
+  }
+, "engines":
+  { "node": ">=0.8"
+  }
+}
