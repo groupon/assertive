@@ -95,9 +95,6 @@ assert =
       needle = stringify needle
       throw new TypeError """#{name} takes a String or Array haystack; you used:
                              #{name} #{red stringify haystack}, #{needle}"""
-    if haystack.length is 0 and not negated
-      unless isString(haystack) and isRegExp(needle)
-        throw error "#{red stringify haystack} will never include anything"
 
     if isString haystack
       if isRegExp needle
