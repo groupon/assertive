@@ -288,11 +288,16 @@ describe 'include', ->
     include 'include takes a String or Array haystack', err.message
     truthy 'include throws a TypeError on bad args', err instanceof TypeError
 
-  it 'errors out extra helpfully when you provide an empty haystack', ->
-    err = throws -> include 'Your expectations are problematic, dear', []
-    include 'will never include anything', err.message
-    err = throws -> include 'Adjust your code and try again, love', ''
-    include 'will never include anything', err.message
+  describe 'errors out extra helpfully when you provide an empty haystack', ->
+    it 'as an array', ->
+      err = throws -> include 'Your expectations are problematic, dear', []
+      expectedError = 'include expected needle to be found in haystack\n- needle: \"Your expectations are problematic, dear\"\nhaystack: []'
+      include expectedError, err.message
+
+    it 'as a string', ->
+      err = throws -> include 'Adjust your code and try again, love', ''
+      expectedError = 'include expected needle to be found in haystack\n- needle: \"Adjust your code and try again, love\"\nhaystack: \"\"'
+      include expectedError, err.message
 
   it "doesn't do anything when passed an array including the value", ->
     include 1, [1]
