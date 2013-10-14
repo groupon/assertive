@@ -288,17 +288,6 @@ describe 'include', ->
     include 'include takes a String or Array haystack', err.message
     truthy 'include throws a TypeError on bad args', err instanceof TypeError
 
-  describe 'errors out extra helpfully when you provide an empty haystack', ->
-    it 'as an array', ->
-      err = throws -> include 'Your expectations are problematic, dear', []
-      expectedError = 'include expected needle to be found in haystack\n- needle: \"Your expectations are problematic, dear\"\nhaystack: []'
-      include expectedError, err.message
-
-    it 'as a string', ->
-      err = throws -> include 'Adjust your code and try again, love', ''
-      expectedError = 'include expected needle to be found in haystack\n- needle: \"Adjust your code and try again, love\"\nhaystack: \"\"'
-      include expectedError, err.message
-
   it "doesn't do anything when passed an array including the value", ->
     include 1, [1]
     include this, [1, this, 3]
@@ -319,6 +308,18 @@ describe 'include', ->
   it "errors out when the string passed doesn't include the needle", ->
     throws -> include '/spelunking/', 'spelunking'
     throws -> include 'SAY, WHAT?', 'say, what?'
+
+  it 'errors out the same way when testing for a needle in an empty array', ->
+    err = throws -> include 'not present in array', []
+    include '''include expected needle to be found in haystack
+               - needle: "not present in array"
+               haystack: []''', err.message
+
+  it 'errors out the same way when testing for a needle in an empty string', ->
+    err = throws -> include 'not present in string', ''
+    include '''include expected needle to be found in haystack
+               - needle: "not present in string"
+               haystack: ""''', err.message
 
   it "errors out when the string passed doesn't match the RegExp", ->
     throws -> include /SPELUNKING/, 'spelunking'
