@@ -25,14 +25,17 @@ Assertive uses [semver](http://semver.org/) version numbers, though we
 should point out that we may tighten assertion checks in minor version
 number updates, making code that previously silently passed, now fail.
 
-Case in point: we consider an assertion that verifies that some string
-of yours includes the substring `''` (the empty string) to be a broken
-test you should fix - since all strings do, but did not throw an error
-if your code did this until version 1.3.0. Breaking changes implying a
-major version bump would be things like argument order changes. If you
-really do not want to get improved coverage against this type of error
-in a minor upgrade, you should of course pin some version you like, in
-your `package.json` file, rather than a version range.
+Case in point: before v1.3.0, code using an assertion to verify that a
+string included the empty string, would do just that. In other words -
+nothing, since that assertion does not test anything. Now, such a test
+is flagged as a bug in your test suite that you should fix, as that is
+not asserting something about your code, but about strings in general.
+
+In Assertive, breaking changes implying a major version bump, would be
+things like argument order changes. If you really do not want improved
+coverage against this type of error with a random minor version update
+you should pin a version you like in your `package.json` rather than a
+version range.
 
 Usage
 ----------------------------------------------------------------------
