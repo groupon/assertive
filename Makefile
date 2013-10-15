@@ -28,11 +28,6 @@ test: build
 tag:
 	git tag v`coffee -e "console.log JSON.parse(require('fs').readFileSync 'package.json').version"`
 
-publish:
-	@egrep -q '^registry = http://npm-registry.snc1/$$' $$HOME/.npmrc || \
-		(echo 'Error: Make your ~/.npmrc to point at snc1!' >&2 ; false)
-	npm publish . --registry http://npm-registry.snc1
-
 assert-on-clean-master:
 	@[[ "`git rev-parse --abbrev-ref HEAD`" = "master" ]] || \
 		$(call ERROR,"Not on master branch")
