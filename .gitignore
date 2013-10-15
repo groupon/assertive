@@ -1,0 +1,3 @@
+*.log
+*.gz
+node_modules
