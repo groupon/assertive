@@ -18,6 +18,22 @@ not just by people reading the code, but also by programmers _writing_
 them, which can make even 100%-test-coverage code fail on behalf of it
 testing for the wrong thing.
 
+Semantic Versioning
+----------------------------------------------------------------------
+
+Assertive uses [semver](http://semver.org/) version numbers, though we
+should point out that we may tighten assertion checks in minor version
+number updates, making code that previously silently passed, now fail.
+
+Case in point: we consider an assertion that verifies that some string
+of yours includes the substring `''` (the empty string) to be a broken
+test you should fix - since all strings do, but did not throw an error
+if your code did this until version 1.3.0. Breaking changes implying a
+major version bump would be things like argument order changes. If you
+really do not want to get improved coverage against this type of error
+in a minor upgrade, you should of course pin some version you like, in
+your `package.json` file, rather than a version range.
+
 Usage
 ----------------------------------------------------------------------
 
