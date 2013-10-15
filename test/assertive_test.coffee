@@ -283,6 +283,11 @@ describe 'include', ->
     match saneNeedlesPlease, e.message
     truthy 'should throw TypeError', e instanceof TypeError
 
+  it 'throws an error for the no-op assertion string-contains-empty-string', ->
+    err = throws -> include '', 'all strings include the empty string'
+    expect = 'no-op test detected: all strings contain the empty string!'
+    include expect, err.message
+
   it 'raises a helpful TypeError when you pass a bad haystack', ->
     err = throws -> include 0, 1000
     include 'include takes a String or Array haystack', err.message
@@ -363,6 +368,11 @@ describe 'notInclude', ->
     e = throws -> notInclude 0, 1000
     include 'notInclude takes a String or Array haystack', e.message
     truthy 'notInclude throws a TypeError on bad args', e instanceof TypeError
+
+  it 'throws an error for the bad assertion string-lacks-empty-string', ->
+    err = throws -> notInclude '', 'all strings include the empty string'
+    want = 'always-failing test detected: all strings contain the empty string!'
+    include want, err.message
 
   it 'lets you pass an empty haystack if you want to', ->
     notThrows -> notInclude 'Your expectations are just fine, love', []

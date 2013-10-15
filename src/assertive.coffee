@@ -87,6 +87,9 @@ assert =
     [name, negated] = handleArgs this, [2, 3], arguments, 'include'
     [explanation, needle, haystack] = arguments  if arguments.length is 3
     if isString haystack
+      if needle is ''
+        what = if negated then 'always-failing test' else 'no-op test'
+        throw error "#{what} detected: all strings contain the empty string!"
       unless isString(needle) or isNumber(needle) or isRegExp(needle)
         problem = "needs a RegExp/String/Number needle for a String haystack"
         throw new TypeError """#{name} #{problem}; you used:
