@@ -202,8 +202,16 @@ nameNegative = (name) ->
   'not' + name.charAt().toUpperCase() + name.slice 1
 
 # produce negatived versions of all the common assertion functions
-for name in ['truthy', 'equal', 'deepEqual', 'include', 'match', 'throws',
-'hasType']
+positiveAssertions = [
+  'truthy'
+  'equal'
+  'deepEqual'
+  'include'
+  'match'
+  'throws'
+  'hasType'
+]
+for name in positiveAssertions
   assert[nameNegative name] = do (name) -> -> assert[name].apply '!', arguments
 
 
