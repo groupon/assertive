@@ -179,8 +179,9 @@ assert =
     okTypes = [String, Number, RegExp, Array, Function, Object]
     unless expected in okTypes
       called = "#{name} #{stringify expected}, #{red stringify x}"
+      types  = pluck(okTypes, 'name').join(', ')
       throw new TypeError "#{name}: expected arg is not one of " +
-      "#{pluck(okTypes, 'name').join(', ')}; you used:\n#{called}"
+      "#{types}; you used:\n#{called}"
 
     actual =
       switch
