@@ -172,29 +172,29 @@ assert =
     return if negated
     throw error "Didn't throw an exception as expected to", explanation
 
-  hasType: (expected, x) ->
+  hasType: (expectedType, value) ->
     [name, negated] = handleArgs this, [2, 3], arguments, 'hasType'
-    [explanation, expected, x] = arguments  if arguments.length is 3
+    [explanation, expectedType, value] = arguments  if arguments.length is 3
 
     okTypes = [String, Number, RegExp, Array, Function, Object]
-    unless expected in okTypes
-      called = "#{name} #{stringify expected}, #{red stringify x}"
+    unless expectedType in okTypes
+      called = "#{name} #{stringify expectedType}, #{red stringify value}"
       types  = pluck(okTypes, 'name').join(', ')
-      throw new TypeError "#{name}: expected arg is not one of " +
+      throw new TypeError "#{name}: expectedType arg is not one of " +
       "#{types}; you used:\n#{called}"
 
     actual =
       switch
-        when isString   x then String
-        when isNumber   x then Number
-        when isRegExp   x then RegExp
-        when isArray    x then Array
-        when isFunction x then Function
+        when isString   value then String
+        when isNumber   value then Number
+        when isRegExp   value then RegExp
+        when isArray    value then Array
+        when isFunction value then Function
         else Object
 
-    unless expected is actual ^ negated
+    unless expectedType is actual ^ negated
       message =
-        "Expected argument #{stringify x} to be of type #{expected.name}"
+       "Expected argument #{stringify value} to be of type #{expectedType.name}"
       throw error message, explanation
 
 nameNegative = (name) ->
