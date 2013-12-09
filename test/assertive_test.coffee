@@ -4,7 +4,9 @@
 , deepEqual, notDeepEqual
 , include,   notInclude
 , match,     notMatch
-, throws,    notThrows } = require '../lib/assertive'
+, throws,    notThrows
+, hasType,   notHasType
+} = require '../lib/assertive'
 
 describe 'throws', ->
   it 'errors out when you provide too few or too many args', ->
@@ -499,3 +501,75 @@ describe 'notMatch', ->
   it 'shortens larger strings in the assertion message', ->
     e = throws -> notMatch /200/, JSON.stringify [1..2000]
     include 'string String[length: 8894]', e.message
+
+describe 'hasType', ->
+  it 'errors out when you provide too few, too many, or incorrect args', ->
+    throws -> hasType()
+    throws -> hasType String
+    throws -> hasType 42, 42
+    throws -> hasType 'explanation', String, 'some thing', 'extra'
+
+  it 'explains correct types for wrong ones', ->
+    e = throws -> hasType 42, 42
+    match /expectedType arg is not one of/, e.message
+    truthy 'should throw TypeError', e instanceof TypeError
+
+  it 'recognizes Strings', ->
+    hasType String, '42'
+    throws -> hasType String, 42
+
+  it 'recognizes Numbers', ->
+    hasType Number, 42
+    throws -> hasType Number, '42'
+
+  it 'recognizes RegExps', ->
+    hasType RegExp, /howdy/
+    throws -> hasType RegExp, '/howdy/'
+
+  it 'recognizes Arrays', ->
+    hasType Array, [1, 2, 3]
+    throws -> hasType Array, '[1, 2, 3]'
+
+  it 'recognizes Functions', ->
+    hasType Function, ->
+    throws -> hasType Function, 'function () { }'
+
+  it 'recognizes Objects', ->
+    hasType Object, foo: 42
+    throws -> hasType Object, [1, 2, 3]
+
+describe 'notHasType', ->
+  it 'errors out when you provide too few, too many, or incorrect args', ->
+    throws -> notHasType()
+    throws -> notHasType String
+    throws -> notHasType 42, 42
+    throws -> notHasType 'explanation', String, 'some thing', 'extra'
+
+  it 'explains correct types for wrong ones', ->
+    e = throws -> notHasType 42, 42
+    match /expectedType arg is not one of/, e.message
+    truthy 'should throw TypeError', e instanceof TypeError
+
+  it 'recognizes non-Strings', ->
+    notHasType String, 42
+    throws -> notHasType String, '42'
+
+  it 'recognizes non-Numbers', ->
+    notHasType Number, '42'
+    throws -> notHasType Number, 42
+
+  it 'recognizes non-RegExps', ->
+    notHasType RegExp, '/howdy/'
+    throws -> notHasType RegExp, /howdy/
+
+  it 'recognizes non-Arrays', ->
+    notHasType Array, '[1, 2, 3]'
+    throws -> notHasType Array, [1, 2, 3]
+
+  it 'recognizes non-Functions', ->
+    notHasType Function, 'function () { }'
+    throws -> notHasType Function, ->
+
+  it 'recognizes non-Objects', ->
+    notHasType Object, [1, 2, 3]
+    throws -> notHasType Object, foo: 42
