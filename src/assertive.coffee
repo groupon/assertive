@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # eat _ off the global scope, or require it ourselves if missing
 
 global = Function('return this')()
-{contains, isEqual, isString, isNumber, isRegExp, isArray} = global._ ? require 'underscore'
+{contains, isEqual, isString, isNumber, isRegExp, isArray, isFunction, pluck} = global._ ? require 'underscore'
 
 
 assert =
@@ -172,12 +172,37 @@ assert =
     return if negated
     throw error "Didn't throw an exception as expected to", explanation
 
+  hasType: (expected, x) ->
+    [name, negated] = handleArgs this, [2, 3], arguments, 'hasType'
+    [explanation, expected, x] = arguments  if arguments.length is 3
+
+    okTypes = [String, Number, RegExp, Array, Function, Object]
+    unless expected in okTypes
+      called = "#{name} #{stringify expected}, #{red stringify x}"
+      throw new TypeError "#{name}: expected arg is not one of " +
+      "#{pluck(okTypes, 'name').join(', ')}; you used:\n#{called}"
+
+    actual =
+      switch
+        when isString   x then String
+        when isNumber   x then Number
+        when isRegExp   x then RegExp
+        when isArray    x then Array
+        when isFunction x then Function
+        else Object
+
+    unless expected is actual ^ negated
+      message =
+        "Expected argument #{stringify x} to be of type #{expected.name}"
+      throw error message, explanation
+
 nameNegative = (name) ->
   return 'falsey'  if name is 'truthy'
   'not' + name.charAt().toUpperCase() + name.slice 1
 
 # produce negatived versions of all the common assertion functions
-for name in ['truthy', 'equal', 'deepEqual', 'include', 'match', 'throws']
+for name in ['truthy', 'equal', 'deepEqual', 'include', 'match', 'throws',
+'hasType']
   assert[nameNegative name] = do (name) -> -> assert[name].apply '!', arguments
 
 
