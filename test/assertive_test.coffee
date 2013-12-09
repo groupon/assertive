@@ -511,7 +511,7 @@ describe 'hasType', ->
 
   it 'explains correct types for wrong ones', ->
     e = throws -> hasType 42, 42
-    match /expected arg is not one of/, e.message
+    match /expectedType arg is not one of/, e.message
     truthy 'should throw TypeError', e instanceof TypeError
 
   it 'recognizes Strings', ->
@@ -547,7 +547,7 @@ describe 'notHasType', ->
 
   it 'explains correct types for wrong ones', ->
     e = throws -> notHasType 42, 42
-    match /expected arg is not one of/, e.message
+    match /expectedType arg is not one of/, e.message
     truthy 'should throw TypeError', e instanceof TypeError
 
   it 'recognizes non-Strings', ->
