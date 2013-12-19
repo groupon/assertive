@@ -13,9 +13,9 @@ MOCHA_ARGS = --recursive --compilers coffee:coffee-script-redux/register \
 MOCHA = $(BIN)/mocha
 COFFEE = $(BIN)/coffee --js
 
-.PHONY: test build
+.PHONY: build test assert-on-clean-master release \
+	release-patch release-minor release-major
 
-all: build test tag publish
 build: $(LIB)
 
 $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
@@ -24,9 +24,6 @@ $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
 
 test: build
 	$(MOCHA) $(MOCHA_ARGS)
-
-tag:
-	git tag v`coffee -e "console.log JSON.parse(require('fs').readFileSync 'package.json').version"`
 
 assert-on-clean-master:
 	@[[ "`git rev-parse --abbrev-ref HEAD`" = "master" ]] || \
@@ -45,9 +42,13 @@ release-minor: release
 release-major: release
 
 release:
+	@if [ -z "$(BUMP)" ] ; then \
+		echo 'Try "make release-(patch|minor|major)"' 1>&2 && false ; \
+	fi
 	(export VERSION=`echo 'path = "./package.json"; p = require(path);' \
+		'fs = require("fs"); json = require("format-json");' \
 		'p.version = require("semver").inc(p.version, "'$(BUMP)'");' \
-		'require("fs").writeFileSync(path, require("./lib/json")(p));' \
+		'fs.writeFileSync(path, json.diffy(p) + "\\\\n");' \
 		'console.log(p.version);' \
 		| node` ; \
 	git commit package.json -m "$$VERSION" && \
