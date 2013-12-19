@@ -42,6 +42,9 @@ release-minor: release
 release-major: release
 
 release:
+	@if [ -z "$(BUMP)" ] ; then \
+		echo 'Try "make release-(patch|minor|major)"' 1>&2 && false ; \
+	fi
 	(export VERSION=`echo 'path = "./package.json"; p = require(path);' \
 		'fs = require("fs"); json = require("format-json");' \
 		'p.version = require("semver").inc(p.version, "'$(BUMP)'");' \
