@@ -24,9 +24,6 @@ $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
 test: build
 	$(MOCHA) $(MOCHA_ARGS)
 
-tag:
-	git tag v`coffee -e "console.log JSON.parse(require('fs').readFileSync 'package.json').version"`
-
 assert-on-clean-master:
 	@[[ "`git rev-parse --abbrev-ref HEAD`" = "master" ]] || \
 		$(call ERROR,"Not on master branch")
