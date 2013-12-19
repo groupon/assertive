@@ -15,7 +15,6 @@ COFFEE = $(BIN)/coffee --js
 
 .PHONY: test build
 
-all: build test tag publish
 build: $(LIB)
 
 $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
@@ -46,8 +45,9 @@ release-major: release
 
 release:
 	(export VERSION=`echo 'path = "./package.json"; p = require(path);' \
+		'fs = require("fs"); json = require("format-json");' \
 		'p.version = require("semver").inc(p.version, "'$(BUMP)'");' \
-		'require("fs").writeFileSync(path, require("./lib/json")(p));' \
+		'fs.writeFileSync(path, json.diffy(p) + "\\\\n");' \
 		'console.log(p.version);' \
 		| node` ; \
 	git commit package.json -m "$$VERSION" && \
