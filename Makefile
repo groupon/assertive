@@ -13,7 +13,8 @@ MOCHA_ARGS = --recursive --compilers coffee:coffee-script-redux/register \
 MOCHA = $(BIN)/mocha
 COFFEE = $(BIN)/coffee --js
 
-.PHONY: test build
+.PHONY: build test assert-on-clean-master release \
+	release-patch release-minor release-major
 
 build: $(LIB)
 
