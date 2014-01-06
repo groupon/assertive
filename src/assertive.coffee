@@ -182,7 +182,8 @@ for name in ['truthy', 'equal', 'deepEqual', 'include', 'match', 'throws']
 
 
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
-red   = (x) -> "\x1B[31m#{ x }\x1B[39m"
+red = (x) -> "\x1B[31m#{ x }\x1B[39m"
+clear = "\x1b[39;49;00m"
 
 implodeNicely = (list, conjunction = 'and') ->
   first = list.slice(0, -1).join(', ')
@@ -233,7 +234,7 @@ stringify = (x) ->
     return className
 
 error = (message, explanation) ->
-  message = "Assertion failed: #{explanation}\n#{message}"  if explanation?
+  message = "Assertion failed: #{explanation}\n#{clear}#{message}"  if explanation?
   new Error message
 
 # assert that the function got `count` args (if an integer), one of the number
