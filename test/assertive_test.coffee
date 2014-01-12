@@ -545,6 +545,8 @@ describe 'hasType', ->
 
   it 'recognizes Dates', ->
     hasType Date, new Date()
+    invalidDate = new Date 'Invalid Date'
+    throws 'Invalid Date tested as being a Date', -> hasType Date, invalidDate
     throws 'Object tested as being a Date', -> hasType Date, getTime: -> 0
 
   it 'recognizes null', ->
@@ -602,6 +604,7 @@ describe 'notHasType', ->
 
   it 'recognizes non-Dates', ->
     notHasType Date, getTime: -> 0
+    notHasType Date, new Date 'Invalid Date'
     throws 'Date tested as not being a Date', -> notHasType Date, new Date
 
   it 'recognizes not-null', ->

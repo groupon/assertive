@@ -225,6 +225,7 @@ types = [
 ]
 
 isType = (value, typeName) ->
+  return _.isDate(value) and not _.isNaN(+value)  if typeName is 'Date'
   _['is' + typeName.charAt(0).toUpperCase() + typeName.slice(1)] value
 
 # gets the name of the type that value is an incarnation of
@@ -274,7 +275,7 @@ toString = Object::toString
 
 stringify = (x) ->
   return "#{x}"  unless x?
-  return 'NaN'  if (typeof x is 'number') and isNaN x
+  return 'NaN'  if _.isNaN x
   return asRegExp x  if isRegExp x
   json = JSON.stringify x, (key, val) ->
     return toString val  if typeof val is 'function'
