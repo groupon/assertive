@@ -177,15 +177,15 @@ assert =
     [name, negated] = handleArgs this, [2, 3], arguments, 'hasType'
     [explanation, expectedType, value] = arguments  if arguments.length is 3
 
-    unless (stringType = getTypeName expectedType) in types
+    stringType = getNameOfType expectedType
+    unless stringType in types
       badArg = stringify expectedType
       suggestions = implodeNicely types, 'or'
       throw new TypeError """#{name}: unknown expectedType #{badArg}; you used:
                              #{name} #{red badArg}, #{stringify value}
                              Did you mean #{suggestions}?"""
 
-    thatType = _['is' + stringType.charAt().toUpperCase() + stringType.slice(1)]
-    unless thatType(value) ^ negated
+    unless stringType is getTypeName(value) ^ negated
       value = red stringify value
       toBeOrNotToBe = (if negated then 'not ' else '') + 'to be'
       message = "Expected value #{value} #{toBeOrNotToBe} of type #{stringType}"
@@ -208,18 +208,38 @@ positiveAssertions = [
 for name in positiveAssertions
   assert[nameNegative name] = do (name) -> -> assert[name].apply '!', arguments
 
+# listing the most specific types first lets us iterate in order and verify that
+# the expected type was the first match
 types = [
-  'Boolean'
-  'Number'
-  'String'
+  'null'
   'Date'
   'Array'
-  'Object'
+  'String'
   'RegExp'
+  'Boolean'
   'Function'
+  'Object'
+  'NaN'
+  'Number'
   'undefined'
-  'null'
 ]
+
+isType = (value, typeName) ->
+  return isNaN value  if typeName is 'NaN'
+  _['is' + typeName.charAt(0).toUpperCase() + typeName.slice(1)] value
+
+# gets the name of the type that value is an incarnation of
+getTypeName = (value) ->
+  _.find types, isType.bind this, value
+
+# translates any argument we were meant to interpret as a type, into its name
+getNameOfType = (x) ->
+  switch
+    when isString x   then x
+    when isFunction x then x.name
+    when isNaN x      then 'NaN'
+    when not x?       then "#{x}" # null / undefined
+    else x
 
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
 red = (x) -> "\x1B[31m#{ x }\x1B[39m"
@@ -252,13 +272,6 @@ asRegExp = (re) ->
   "/#{re.source}/#{flags}"
 
 toString = Object::toString
-
-getTypeName = (x) ->
-  switch
-    when not x?       then "#{x}" # null / undefined
-    when isFunction x then x.name
-    when isString   x then x
-    else x
 
 stringify = (x) ->
   return "#{x}"  unless x?
@@ -325,9 +338,6 @@ handleArgs = (self, count, args, name, help) ->
 
   help = help()  if typeof help is 'function'
   throw error message, help
-
-assert.getTypeName = getTypeName
-assert.stringify = stringify
 
 # export as a module to node - or to the global scope, if not
 if (module?.exports?)

@@ -138,17 +138,21 @@ didn't throw an exception as expected to
 
 ### `hasType`
 ```
-assert.hasType(Array, someVariable);
-assert.hasType(explanation, Array, someVariable);
-assert.hasType(Function, someVariable);
-assert.hasType(Object, someVariable);
-assert.hasType(RegExp, someVariable);
-assert.hasType(String, someVariable);
-assert.hasType(Number, someVariable);
-assert.hasType(Boolean, someVariable);
-assert.hasType(Date, someVariable);
-...
-# fail unless _.isFoo() is true for given "class" Foo
+assert.hasType(<type>, value);
+assert.hasType(explanation, <type>, value);
+assert.hasType(null, value)
+assert.hasType(Date, value)
+assert.hasType(Array, value)
+assert.hasType(String, value)
+assert.hasType(RegExp, value)
+assert.hasType(Boolean, value)
+assert.hasType(Function, value)
+assert.hasType(Object, value)
+assert.hasType(NaN, value)
+assert.hasType(Number, value)
+assert.hasType(undefined, value)
+# fail unless _.isType(value) is true for given Type, or the
+# same test for a more specific type (listed above) was true
 ```
 
 ### `falsey`, `notEqual`, `notDeepEqual`, `notInclude`, `notMatch`, `notThrows`, `notHasType`
