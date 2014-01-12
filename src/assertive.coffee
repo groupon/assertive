@@ -225,7 +225,6 @@ types = [
 ]
 
 isType = (value, typeName) ->
-  return isNaN value  if typeName is 'NaN'
   _['is' + typeName.charAt(0).toUpperCase() + typeName.slice(1)] value
 
 # gets the name of the type that value is an incarnation of
@@ -235,10 +234,10 @@ getTypeName = (value) ->
 # translates any argument we were meant to interpret as a type, into its name
 getNameOfType = (x) ->
   switch
+    when not x?       then "#{x}" # null / undefined
     when isString x   then x
     when isFunction x then x.name
-    when isNaN x      then 'NaN'
-    when not x?       then "#{x}" # null / undefined
+    when _.isNaN x    then 'NaN'
     else x
 
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
