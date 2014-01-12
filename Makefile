@@ -20,7 +20,9 @@ build: $(LIB)
 
 $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
 	@mkdir -p "$(@D)"
-	(echo '/*!' ; cat LICENSE ; echo '*/' ; $(COFFEE) <"$<") >"$@"
+	(echo '/*!' ; cat LICENSE ; echo '*/' ; $(COFFEE) <"$<") >"$@.tmp" \
+		&&  mv -f "$@.tmp" "$@" \
+		|| (rm -f "$@.tmp" && false)
 
 test: build
 	$(MOCHA) $(MOCHA_ARGS)

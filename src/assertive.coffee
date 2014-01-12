@@ -33,7 +33,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # eat _ off the global scope, or require it ourselves if missing
 
 global = Function('return this')()
-{contains, isEqual, isString, isNumber, isRegExp, isArray} = global._ ? require 'underscore'
+{contains, isEqual, isString, isNumber, isRegExp, isArray, isFunction, pluck} =
+_ = global._ ? require 'underscore'
 
 
 assert =
@@ -172,14 +173,52 @@ assert =
     return if negated
     throw error "Didn't throw an exception as expected to", explanation
 
+  hasType: (expectedType, value) ->
+    [name, negated] = handleArgs this, [2, 3], arguments, 'hasType'
+    [explanation, expectedType, value] = arguments  if arguments.length is 3
+
+    unless (stringType = getTypeName expectedType) in types
+      badArg = stringify expectedType
+      suggestions = implodeNicely types, 'or'
+      throw new TypeError """#{name}: unknown expectedType #{badArg}; you used:
+                             #{name} #{red badArg}, #{stringify value}
+                             Did you mean #{suggestions}?"""
+
+    thatType = _['is' + stringType.charAt().toUpperCase() + stringType.slice(1)]
+    unless thatType(value) ^ negated
+      message =
+       "Expected value #{red stringify value} to be of type #{green stringType}"
+      throw error message, explanation
+
 nameNegative = (name) ->
   return 'falsey'  if name is 'truthy'
   'not' + name.charAt().toUpperCase() + name.slice 1
 
 # produce negatived versions of all the common assertion functions
-for name in ['truthy', 'equal', 'deepEqual', 'include', 'match', 'throws']
+positiveAssertions = [
+  'truthy'
+  'equal'
+  'deepEqual'
+  'include'
+  'match'
+  'throws'
+  'hasType'
+]
+for name in positiveAssertions
   assert[nameNegative name] = do (name) -> -> assert[name].apply '!', arguments
 
+types = [
+  'Boolean'
+  'Number'
+  'String'
+  'Date'
+  'Array'
+  'Object'
+  'RegExp'
+  'Function'
+  'undefined'
+  'null'
+]
 
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
 red = (x) -> "\x1B[31m#{ x }\x1B[39m"
@@ -212,6 +251,13 @@ asRegExp = (re) ->
   "/#{re.source}/#{flags}"
 
 toString = Object::toString
+
+getTypeName = (x) ->
+  switch
+    when not x?       then "#{x}" # null / undefined
+    when isFunction x then x.name
+    when isString   x then x
+    else x
 
 stringify = (x) ->
   return "#{x}"  unless x?
@@ -279,6 +325,8 @@ handleArgs = (self, count, args, name, help) ->
   help = help()  if typeof help is 'function'
   throw error message, help
 
+assert.getTypeName = getTypeName
+assert.stringify = stringify
 
 # export as a module to node - or to the global scope, if not
 if (module?.exports?)
