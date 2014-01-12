@@ -520,7 +520,7 @@ describe 'hasType', ->
     throws -> hasType String, 42
 
   it 'recognizes Numbers', ->
-    hasType Number, 42
+    hasType '42 is a Number', Number, 42
     throws -> hasType Number, '42'
 
   it 'recognizes NaN', ->

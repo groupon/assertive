@@ -275,6 +275,7 @@ toString = Object::toString
 
 stringify = (x) ->
   return "#{x}"  unless x?
+  return 'NaN'  if (typeof x is 'number') and isNaN x
   return asRegExp x  if isRegExp x
   json = JSON.stringify x, (key, val) ->
     return toString val  if typeof val is 'function'
