@@ -536,7 +536,7 @@ describe 'hasType', ->
 
   it 'recognizes Objects', ->
     hasType Object, foo: 42
-    throws -> hasType Object, [1, 2, 3]
+    throws 'Array tested as being an Object', -> hasType Object, [1, 2, 3]
 
 describe 'notHasType', ->
   it 'errors out when you provide too few, too many, or incorrect args', ->
@@ -549,6 +549,10 @@ describe 'notHasType', ->
     e = throws -> notHasType 42, 42
     match /unknown expectedType/, e.message
     truthy 'should throw TypeError', e instanceof TypeError
+
+  it 'phrases error messages correctly', ->
+    e = throws -> notHasType Object, {}
+    match /not to be of type Object/, e.message
 
   it 'recognizes non-Strings', ->
     notHasType String, 42

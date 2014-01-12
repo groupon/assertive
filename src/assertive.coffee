@@ -186,8 +186,9 @@ assert =
 
     thatType = _['is' + stringType.charAt().toUpperCase() + stringType.slice(1)]
     unless thatType(value) ^ negated
-      message =
-       "Expected value #{red stringify value} to be of type #{green stringType}"
+      value = red stringify value
+      toBeOrNotToBe = (if negated then 'not ' else '') + 'to be'
+      message = "Expected value #{value} #{toBeOrNotToBe} of type #{stringType}"
       throw error message, explanation
 
 nameNegative = (name) ->
