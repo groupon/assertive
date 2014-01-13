@@ -4,7 +4,9 @@
 , deepEqual, notDeepEqual
 , include,   notInclude
 , match,     notMatch
-, throws,    notThrows } = require '../lib/assertive'
+, throws,    notThrows
+, hasType,   notHasType
+} = require '../lib/assertive'
 
 describe 'throws', ->
   it 'errors out when you provide too few or too many args', ->
@@ -499,3 +501,116 @@ describe 'notMatch', ->
   it 'shortens larger strings in the assertion message', ->
     e = throws -> notMatch /200/, JSON.stringify [1..2000]
     include 'string String[length: 8894]', e.message
+
+
+describe 'hasType', ->
+  it 'errors out when you provide too few, too many, or incorrect args', ->
+    throws -> hasType()
+    throws -> hasType String
+    throws -> hasType 42, 42
+    throws -> hasType 'explanation', String, 'some thing', 'extra'
+
+  it 'explains correct types for wrong ones', ->
+    e = throws -> hasType 42, 42
+    match /unknown expectedType/, e.message
+    truthy 'should throw TypeError', e instanceof TypeError
+
+  it 'recognizes Strings', ->
+    hasType String, '42'
+    throws -> hasType String, 42
+
+  it 'recognizes Numbers', ->
+    hasType '42 is a Number', Number, 42
+    throws -> hasType Number, '42'
+
+  it 'recognizes NaN', ->
+    hasType NaN, NaN
+    throws 'Number tested as being NaN', -> hasType NaN, 68881
+
+  it 'recognizes RegExps', ->
+    hasType RegExp, /howdy/
+    throws -> hasType RegExp, '/howdy/'
+
+  it 'recognizes Arrays', ->
+    hasType Array, [1, 2, 3]
+    throws -> hasType Array, '[1, 2, 3]'
+
+  it 'recognizes Functions', ->
+    hasType Function, ->
+    throws -> hasType Function, 'function () { }'
+
+  it 'recognizes Objects', ->
+    hasType Object, foo: 42
+    throws 'Array tested as being an Object', -> hasType Object, [1, 2, 3]
+
+  it 'recognizes Dates', ->
+    hasType Date, new Date()
+    invalidDate = new Date 'Invalid Date'
+    throws 'Invalid Date tested as being a Date', -> hasType Date, invalidDate
+    throws 'Object tested as being a Date', -> hasType Date, getTime: -> 0
+
+  it 'recognizes null', ->
+    hasType null, null
+    throws 'Object tested as being null', -> hasType null, {}
+
+  it 'recognizes undefined', ->
+    hasType undefined, undefined
+    throws 'Object tested as being undefined', -> hasType undefined, {}
+
+
+describe 'notHasType', ->
+  it 'errors out when you provide too few, too many, or incorrect args', ->
+    throws -> notHasType()
+    throws -> notHasType String
+    throws -> notHasType 42, 42
+    throws -> notHasType 'explanation', String, 'some thing', 'extra'
+
+  it 'explains correct types for wrong ones', ->
+    e = throws -> notHasType 42, 42
+    match /unknown expectedType/, e.message
+    truthy 'should throw TypeError', e instanceof TypeError
+
+  it 'phrases error messages correctly', ->
+    e = throws -> notHasType Object, {}
+    match /not to be of type Object/, e.message
+
+  it 'recognizes non-Strings', ->
+    notHasType String, 42
+    throws -> notHasType String, '42'
+
+  it 'recognizes non-Numbers', ->
+    notHasType Number, '42'
+    throws -> notHasType Number, 42
+
+  it 'recognizes non-NaNs', ->
+    notHasType NaN, 6502
+    throws 'NaN tested as not being NaN', -> notHasType NaN, NaN
+
+  it 'recognizes non-RegExps', ->
+    notHasType RegExp, '/howdy/'
+    throws -> notHasType RegExp, /howdy/
+
+  it 'recognizes non-Arrays', ->
+    notHasType Array, '[1, 2, 3]'
+    throws -> notHasType Array, [1, 2, 3]
+
+  it 'recognizes non-Functions', ->
+    notHasType Function, 'function () { }'
+    throws -> notHasType Function, ->
+
+  it 'recognizes non-Objects', ->
+    notHasType Object, [1, 2, 3]
+    throws -> notHasType Object, foo: 42
+
+  it 'recognizes non-Dates', ->
+    notHasType Date, getTime: -> 0
+    notHasType Date, new Date 'Invalid Date'
+    throws 'Date tested as not being a Date', -> notHasType Date, new Date
+
+  it 'recognizes not-null', ->
+    notHasType null, undefined
+    throws 'null tested as not being null', -> notHasType null, null
+
+  it 'recognizes not-undefined', ->
+    notHasType undefined, null
+    throws -> notHasType undefined, undefined

@@ -33,7 +33,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # eat _ off the global scope, or require it ourselves if missing
 
 global = Function('return this')()
-{contains, isEqual, isString, isNumber, isRegExp, isArray} = global._ ? require 'underscore'
+{contains, isEqual, isString, isNumber, isRegExp, isArray, isFunction, pluck} =
+_ = global._ ? require 'underscore'
 
 
 assert =
@@ -172,14 +173,73 @@ assert =
     return if negated
     throw error "Didn't throw an exception as expected to", explanation
 
+  hasType: (expectedType, value) ->
+    [name, negated] = handleArgs this, [2, 3], arguments, 'hasType'
+    [explanation, expectedType, value] = arguments  if arguments.length is 3
+
+    stringType = getNameOfType expectedType
+    unless stringType in types
+      badArg = stringify expectedType
+      suggestions = implodeNicely types, 'or'
+      throw new TypeError """#{name}: unknown expectedType #{badArg}; you used:
+                             #{name} #{red badArg}, #{stringify value}
+                             Did you mean #{suggestions}?"""
+
+    unless stringType is getTypeName(value) ^ negated
+      value = red stringify value
+      toBeOrNotToBe = (if negated then 'not ' else '') + 'to be'
+      message = "Expected value #{value} #{toBeOrNotToBe} of type #{stringType}"
+      throw error message, explanation
+
 nameNegative = (name) ->
   return 'falsey'  if name is 'truthy'
   'not' + name.charAt().toUpperCase() + name.slice 1
 
 # produce negatived versions of all the common assertion functions
-for name in ['truthy', 'equal', 'deepEqual', 'include', 'match', 'throws']
+positiveAssertions = [
+  'truthy'
+  'equal'
+  'deepEqual'
+  'include'
+  'match'
+  'throws'
+  'hasType'
+]
+for name in positiveAssertions
   assert[nameNegative name] = do (name) -> -> assert[name].apply '!', arguments
 
+# listing the most specific types first lets us iterate in order and verify that
+# the expected type was the first match
+types = [
+  'null'
+  'Date'
+  'Array'
+  'String'
+  'RegExp'
+  'Boolean'
+  'Function'
+  'Object'
+  'NaN'
+  'Number'
+  'undefined'
+]
+
+isType = (value, typeName) ->
+  return _.isDate(value) and not _.isNaN(+value)  if typeName is 'Date'
+  _['is' + typeName.charAt(0).toUpperCase() + typeName.slice(1)] value
+
+# gets the name of the type that value is an incarnation of
+getTypeName = (value) ->
+  _.find types, isType.bind this, value
+
+# translates any argument we were meant to interpret as a type, into its name
+getNameOfType = (x) ->
+  switch
+    when not x?       then "#{x}" # null / undefined
+    when isString x   then x
+    when isFunction x then x.name
+    when _.isNaN x    then 'NaN'
+    else x
 
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
 red = (x) -> "\x1B[31m#{ x }\x1B[39m"
@@ -215,6 +275,7 @@ toString = Object::toString
 
 stringify = (x) ->
   return "#{x}"  unless x?
+  return 'NaN'  if _.isNaN x
   return asRegExp x  if isRegExp x
   json = JSON.stringify x, (key, val) ->
     return toString val  if typeof val is 'function'
@@ -278,7 +339,6 @@ handleArgs = (self, count, args, name, help) ->
 
   help = help()  if typeof help is 'function'
   throw error message, help
-
 
 # export as a module to node - or to the global scope, if not
 if (module?.exports?)

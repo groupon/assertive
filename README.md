@@ -61,7 +61,7 @@ your usage: expect(10,10)
 
 There have been test suites full of no-op tests similar to this, which
 have gone undetected for months or years, giving a false sense of what
-regressions you are guarded against. 
+regressions you are guarded against.
 
 These docs show a typical invocation, and what you see when it failed:
 
@@ -136,7 +136,26 @@ Assertion failed: ensure that bad inputs throw an error
 didn't throw an exception as expected to
 ```
 
-### `falsey`, `notEqual`, `notDeepEqual`, `notInclude`, `notMatch`, `notThrows`
+### `hasType`
+```
+assert.hasType(<type>, value);
+assert.hasType(explanation, <type>, value);
+assert.hasType(null, value)
+assert.hasType(Date, value)
+assert.hasType(Array, value)
+assert.hasType(String, value)
+assert.hasType(RegExp, value)
+assert.hasType(Boolean, value)
+assert.hasType(Function, value)
+assert.hasType(Object, value)
+assert.hasType(NaN, value)
+assert.hasType(Number, value)
+assert.hasType(undefined, value)
+# fail unless _.isType(value) is true for given Type, or the
+# same test for a more specific type (listed above) was true
+```
+
+### `falsey`, `notEqual`, `notDeepEqual`, `notInclude`, `notMatch`, `notThrows`, `notHasType`
 Versions of the above functions taking the same arguments, but asserting
 the opposite outcome. The assertion failure messages are just as helpful.
 
