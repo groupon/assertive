@@ -137,7 +137,6 @@ assert =
       else
         oops = 'string arg is not a String'
       throw new TypeError "#{name}: #{oops}; you used:\n#{called}"
-        #{name} #{green stringify regexp}, #{red abbreviate 'string', string}"""
 
     matched = regexp.test string
     if negated
