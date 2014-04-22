@@ -244,6 +244,10 @@ green = (x) -> "\x1B[32m#{ x }\x1B[39m"
 red = (x) -> "\x1B[31m#{ x }\x1B[39m"
 clear = "\x1b[39;49;00m"
 
+unless process?.stdout?.isTTY
+  green = red = (x) -> "#{x}"
+  clear = -> ''
+
 implodeNicely = (list, conjunction = 'and') ->
   first = list.slice(0, -1).join(', ')
   last = list[list.length - 1]
