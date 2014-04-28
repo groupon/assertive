@@ -137,7 +137,6 @@ assert =
       else
         oops = 'string arg is not a String'
       throw new TypeError "#{name}: #{oops}; you used:\n#{called}"
-        #{name} #{green stringify regexp}, #{red abbreviate 'string', string}"""
 
     matched = regexp.test string
     if negated
@@ -244,6 +243,10 @@ getNameOfType = (x) ->
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
 red = (x) -> "\x1B[31m#{ x }\x1B[39m"
 clear = "\x1b[39;49;00m"
+
+unless process?.stdout?.isTTY
+  green = red = (x) -> "#{x}"
+  clear = -> ''
 
 implodeNicely = (list, conjunction = 'and') ->
   first = list.slice(0, -1).join(', ')
