@@ -246,7 +246,7 @@ clear = "\x1b[39;49;00m"
 
 unless process?.stdout?.isTTY
   green = red = (x) -> "#{x}"
-  clear = -> ''
+  clear = ''
 
 implodeNicely = (list, conjunction = 'and') ->
   first = list.slice(0, -1).join(', ')
@@ -298,7 +298,8 @@ stringify = (x) ->
     return className
 
 error = (message, explanation) ->
-  message = "Assertion failed: #{explanation}\n#{clear}#{message}"  if explanation?
+  if explanation?
+    message = "Assertion failed: #{explanation}\n#{clear}#{message}"
   new Error message
 
 # assert that the function got `count` args (if an integer), one of the number
