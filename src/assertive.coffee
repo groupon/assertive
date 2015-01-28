@@ -280,6 +280,7 @@ stringify = (x) ->
   return "#{x}"  unless x?
   return 'NaN'  if _.isNaN x
   return asRegExp x  if isRegExp x
+  return x.toString()  if typeof x is 'symbol'
   json = JSON.stringify x, (key, val) ->
     return toString val  if typeof val is 'function'
     return asRegExp val  if isRegExp val
