@@ -44,16 +44,12 @@ assert =
     unless (!!bool) ^ negated
       throw error "Expected #{red stringify bool} to be #{name}", explanation
 
-  # Use `truthy` to document the semantics of your truth expectation in arg 2.
-  # People often call this with two args, expecting it to compare them; do not
-  # add args to this call: it's important to make that accident a failed test!
   expect: (bool) ->
-    handleArgs null, 1, arguments, 'expect', ->
-      tips = (green(tip) for tip in ['truthy', 'equal', 'deepEqual', 'include'])
-      suggestions = implodeNicely tips, 'or'
-      "Did you mean #{suggestions}?"
-    unless bool
-      throw error "Expected #{red stringify bool} to be truthy"
+    [explanation, bool] = arguments  if arguments.length is 2
+    if explanation
+      assert.equal explanation, true, bool
+    else
+      assert.equal true, bool
 
   equal: (expected, actual) ->
     [name, negated] = handleArgs this, [2, 3], arguments, 'equal'
