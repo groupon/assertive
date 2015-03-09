@@ -57,6 +57,17 @@ describe 'notThrows', ->
     err = throws -> notThrows explanation, -> throw new Error 'aiee!'
     include explanation, err.message
 
+nonTrueOutcome = (fn, outcome) ->
+  ->
+    outcome -> fn 1
+    outcome -> fn {}
+    outcome -> fn []
+    outcome -> fn '!'
+    outcome -> fn 0
+    outcome -> fn ''
+    outcome -> fn null
+    outcome -> fn false
+    outcome -> fn undefined
 
 truthyOutcome = (fn, outcome) ->
   ->
@@ -78,6 +89,7 @@ truthyIsNoOp = (fn) -> truthyOutcome fn, notThrows
 falseyIsNoOp = (fn) -> falseyOutcome fn, notThrows
 truthyThrows = (fn) -> truthyOutcome fn, throws
 falseyThrows = (fn) -> falseyOutcome fn, throws
+nonTrueThrows = (fn) -> nonTrueOutcome fn, throws
 
 describe 'truthy', ->
   it 'errors out when you provide too few or too many args', ->
@@ -120,18 +132,18 @@ describe 'falsey', ->
 describe 'expect', ->
   it 'errors out when you provide too few or way too many args', ->
     throws -> expect()
-    throws -> expect('description illegal to protect the sloppy; use truthy', 1)
+    throws -> expect('desc', 1, 2)
 
-  it "doesn't do anything when passed a truthy value", truthyIsNoOp expect
+  it "doesn't do anything when passed true", ->
+    expect 'It really is true', true
+    expect 2 > 1
 
-  it 'errors out when passed a non-truthy value', falseyThrows expect
+  it 'errors out when passed anything but true', nonTrueThrows expect
 
-  it 'helps you pick the right function for the job when given two args', ->
+  it 'is not very likely to accept mistakes', ->
     err = throws -> expect 'te' + 'st', 'test' # people try this kind of stuff
-    include 'Error message suggests using truthy',    'truthy',    err.message
-    include 'Error message suggests using equal',     'equal',     err.message
-    include 'Error message suggests using deepEqual', 'deepEqual', err.message
-    include 'Error message suggests using include',   'include',   err.message
+    include /Expected: .*true/, err.message
+    include /Actually: .*"test"/, err.message
 
 
 describe 'equal', ->

@@ -54,9 +54,8 @@ ever test is that the first was truthy. To not get test suites full of
 almost-no-op tests like that, Assertive fails straight away like this:
 
 ```
-Assertion failed: Did you mean truthy, equal, deepEqual or include?
-expect(bool) needs 1 argument
-your usage: expect(10,10)
+Expected: true
+Actually: 10
 ```
 
 There have been test suites full of no-op tests similar to this, which
@@ -65,9 +64,29 @@ regressions you are guarded against.
 
 These docs show a typical invocation, and what you see when it failed:
 
-### `expect` and `truthy`
+
+### `expect`
 ```
 assert.expect(bool)
+# fail if bool != true
+```
+
+```
+expect '2 > 1', 2 > 1
+
+Assertion failed: 2 > 1
+```
+
+
+### `truthy`
+
+**Note**: Using `truthy` in your tests is a code smell.
+More often than not there is another, more precise test.
+Only use `truthy` when there is no way of knowing what the actual value will be.
+If `bool` is the result of a boolean operation, use `expect`.
+If `bool` is an unknown value, use `match` or `include` to narrow it down.
+
+```
 assert.truthy(bool)
 assert.truthy(explanation, bool)
 # fail if !bool
