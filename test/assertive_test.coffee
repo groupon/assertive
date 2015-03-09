@@ -162,6 +162,12 @@ describe 'equal', ->
     err = throws -> equal explanation, 0, 1
     include explanation, err.message
 
+  if typeof Symbol != 'undefined'
+    it 'nicely formats non-matching symbols', ->
+      err = throws -> equal Symbol('some'), Symbol('other')
+      include 'Symbol(some)', err.message
+      include 'Symbol(other)', err.message
+
 
 describe 'notEqual', ->
   it 'errors out when you provide too few or too many args', ->
