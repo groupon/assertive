@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # eat _ off the global scope, or require it ourselves if missing
 
 global = Function('return this')()
-{contains, isEqual, isString, isNumber, isRegExp, isArray, isFunction, pluck} =
+{contains, isEqual, isString, isObject, isNumber, isRegExp, isArray, isFunction, pluck, find} =
 _ = global._ ? require 'underscore'
 
 
@@ -101,6 +101,8 @@ assert =
         contained = haystack.match needle
       else
         contained = haystack.indexOf(needle) isnt -1
+    else if isObject needle
+      contained = (find haystack, (obj) -> isEqual obj, needle)?
     else
       contained = contains haystack, needle
 
