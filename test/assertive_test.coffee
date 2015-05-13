@@ -361,10 +361,6 @@ describe 'include', ->
     err = throws -> include explanation, [undefined], [null]
     include explanation, err.message
 
-  it 'shortens larger haystacks in the assertion message', ->
-    err = throws -> include 2001, [1..2000]
-    match /^include [\s\S]*haystack: Array\[length: 2000; \d* JSON/, err.message
-
 
 describe 'notInclude', ->
   it 'errors out when you provide too few or too many args', ->
@@ -432,10 +428,6 @@ describe 'notInclude', ->
     err = throws -> notInclude explanation, null, [null]
     include explanation, err.message
 
-  it 'shortens larger haystacks in the assertion message', ->
-    err = throws -> notInclude 2000, [1..2000]
-    match /notInclude[\s\S]*stack: Array\[length: 2000; \d* JSON/, err.message
-
 
 describe 'match', ->
   it 'errors out when you provide too few or too many args', ->
@@ -471,10 +463,6 @@ describe 'match', ->
     explanation = 'Given falsum, we can derive anything, which is awesome!'
     e = throws -> match explanation, /aye/, 'nay'
     include explanation, e.message
-
-  it 'shortens larger strings in the assertion message', ->
-    e = throws -> match /4711/, JSON.stringify [1..2000]
-    include 'string String[length: 8894]', e.message
 
 
 describe 'notMatch', ->
@@ -515,10 +503,6 @@ describe 'notMatch', ->
     explanation = 'Given falsum, we can derive anything, which is awesome!'
     e = throws -> notMatch explanation, /woo/, 'woo!'
     include explanation, e.message
-
-  it 'shortens larger strings in the assertion message', ->
-    e = throws -> notMatch /200/, JSON.stringify [1..2000]
-    include 'string String[length: 8894]', e.message
 
 
 describe 'hasType', ->
