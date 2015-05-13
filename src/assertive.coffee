@@ -109,7 +109,7 @@ assert =
       if contained
         message = """notInclude expected needle not to be found in haystack
                      - needle: #{stringify needle}
-                     haystack: #{abbreviate '', haystack}"""
+                     haystack: #{stringify haystack}"""
         if isString(haystack) and isRegExp(needle)
           message += ", but found:\n"
           if needle.global
@@ -120,14 +120,13 @@ assert =
     else if not contained
       throw error """#{name} expected needle to be found in haystack
                      - needle: #{stringify needle}
-                     haystack: #{abbreviate '', haystack}""", explanation
+                     haystack: #{stringify haystack}""", explanation
 
   match: (regexp, string) ->
     [name, negated] = handleArgs this, [2, 3], arguments, 'match'
     [explanation, regexp, string] = arguments  if arguments.length is 3
     unless (re = isRegExp regexp) and isString string
-      string = abbreviate 'string', string
-      called = "#{name} #{stringify regexp}, #{red string}"
+      called = "#{name} #{stringify regexp}, #{red stringify string}"
       if not re
         oops = 'regexp arg is not a RegExp'
       else
@@ -138,14 +137,14 @@ assert =
     if negated
       return  unless matched
       message = """Expected: #{stringify regexp}
-                   not to match: #{red abbreviate 'string', string}"""
+                   not to match: #{red stringify string}"""
       if regexp.global
         count = string.match(regexp).length
         message += "\nMatches: #{red count}"
       throw error message, explanation
     return  if matched
     throw error """Expected: #{stringify regexp}
-                   to match: #{red abbreviate 'string', string}""", explanation
+                   to match: #{red stringify string}""", explanation
 
 
   throws: (fn) ->
@@ -248,13 +247,6 @@ implodeNicely = (list, conjunction = 'and') ->
   first = list.slice(0, -1).join(', ')
   last = list[list.length - 1]
   "#{first} #{conjunction} #{last}"
-
-abbreviate = (name, value, threshold = 1024) ->
-  return str  if (str = stringify value).length <= threshold
-  desc = "length: #{value.length}"
-  desc += "; #{str.length} JSON encoded"  if isArray value
-  name += ' '  if name
-  "#{name}#{type value}[#{desc}]"
 
 type = (x) ->
   return 'String' if isString x
