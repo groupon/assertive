@@ -299,7 +299,7 @@ describe 'include', ->
     saneNeedlesPlease = /needs a .* needle for a String haystack/
     e = throws -> include undefined, 'undefined? baad'
     match saneNeedlesPlease, e.message
-    e = throws -> include(->, 'function? worse')
+    e = throws -> include (->), 'function? worse'
     match saneNeedlesPlease, e.message
     truthy 'should throw TypeError', e instanceof TypeError
 
@@ -380,7 +380,7 @@ describe 'notInclude', ->
     saneNeedlesPlease = /needs a .* needle for a String haystack/
     e = throws -> notInclude undefined, 'undefined? baad'
     match saneNeedlesPlease, e.message
-    e = throws -> notInclude ->, 'function? worse'
+    e = throws -> notInclude (->), 'function? worse'
     match saneNeedlesPlease, e.message
     truthy 'should throw TypeError', e instanceof TypeError
 

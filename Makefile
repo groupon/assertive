@@ -7,11 +7,11 @@ LIBDIR = lib
 SRC = $(shell find "$(SRCDIR)" -name "*.coffee" -type f | sort)
 LIB = $(SRC:$(SRCDIR)/%.coffee=$(LIBDIR)/%.js)
 
-MOCHA_ARGS = --recursive --compilers coffee:coffee-script-redux/register \
-	-r coffee-script-redux/register --reporter spec --colors
+MOCHA_ARGS = --recursive --compilers coffee:coffee-script/register \
+	-r coffee-script/register --reporter spec --colors
 
 MOCHA = $(BIN)/mocha
-COFFEE = $(BIN)/coffee --js
+COFFEE = $(BIN)/coffee -p
 
 .PHONY: build test assert-on-clean-master release \
 	release-patch release-minor release-major
@@ -20,7 +20,7 @@ build: $(LIB)
 
 $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
 	@mkdir -p "$(@D)"
-	(echo '/*!' ; cat LICENSE ; echo '*/' ; $(COFFEE) <"$<") >"$@.tmp" \
+	$(COFFEE) "$<" > "$@.tmp" \
 		&&  mv -f "$@.tmp" "$@" \
 		|| (rm -f "$@.tmp" && false)
 
