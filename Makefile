@@ -20,7 +20,7 @@ build: $(LIB)
 
 $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
 	@mkdir -p "$(@D)"
-	(echo '/*!' ; cat LICENSE ; echo '*/' ; $(COFFEE) "$<") >"$@.tmp" \
+	$(COFFEE) "$<" > "$@.tmp" \
 		&&  mv -f "$@.tmp" "$@" \
 		|| (rm -f "$@.tmp" && false)
 
