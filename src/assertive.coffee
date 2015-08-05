@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 global = Function('return this')()
 {contains, isEqual, isString, isNumber, isRegExp, isArray, isFunction, pluck} =
-_ = global._ ? require 'underscore'
+_ = global._ ? require 'lodash'
 
 
 assert =

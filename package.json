@@ -14,13 +14,13 @@
   { "test": "make test"
   }
 , "dependencies":
-  { "underscore": "1.5.1"
+  { "lodash": "^3.10.1"
   }
 , "devDependencies":
-  { "mocha": "1.8.2"
-  , "semver": "2.1.0"
+  { "coffee-script": "1.9.3"
   , "format-json": "1.0.2"
-  , "coffee-script-redux": "2.0.0-beta7"
+  , "mocha": "1.8.2"
+  , "semver": "2.1.0"
   }
 , "engines":
   { "node": ">=0.8"
