@@ -11,18 +11,30 @@
   }
 , "main": "lib/assertive.js"
 , "scripts":
-  { "test": "make test"
+  { "build": "rm -rf lib && coffee -cbo lib src"
+  , "watch": "coffee -wcbo lib src & nodemon -w src -w test -e coffee,js,json -x 'npm run test-run'"
+  , "pretest": "npm run build"
+  , "test": "npm run test-run"
+  , "posttest": "npub verify"
+  , "test-run": "coffeelint src test && mocha"
   }
 , "dependencies":
   { "lodash": "^3.10.1"
   }
 , "devDependencies":
   { "coffee-script": "1.9.3"
-  , "format-json": "1.0.2"
-  , "mocha": "1.8.2"
-  , "semver": "2.1.0"
+  , "coffeelint": "^1.10.1"
+  , "coffeelint-use-strict": "0.0.1"
+  , "mocha": "^2.2.5"
+  , "nodemon": "^1.3.7"
+  , "npub": "^2.2.0"
   }
 , "engines":
   { "node": ">=0.8"
+  }
+, "publishConfig":
+  { "license":
+    { "exclude": ["."]
+    }
   }
 }
