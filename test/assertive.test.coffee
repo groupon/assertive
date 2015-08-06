@@ -1,3 +1,5 @@
+'use strict'
+
 { truthy,    falsey
 , expect,    notExpect
 , equal,     notEqual
@@ -21,7 +23,7 @@ describe 'throws', ->
     throws -> throws(68000)
     throws -> throws('more awesomeness', 68020)
 
-  it "returns the exception that was thrown by the provided function", ->
+  it 'returns the exception that was thrown by the provided function', ->
     exception = new Error 68040
     equal throws(-> throw exception), exception
     equal throws(-> throw 'we suck'), 'we suck'
@@ -45,7 +47,7 @@ describe 'notThrows', ->
     throws -> notThrows(68000)
     throws -> notThrows('more awesomeness', 68020)
 
-  it "captures and shows exceptions thrown by the provided function", ->
+  it 'captures and shows exceptions thrown by the provided function', ->
     thrown = new Error 68040
     caught = throws -> notThrows -> throw thrown
     truthy 'the exception thrown was caught and a new exception thrown', caught
@@ -403,12 +405,12 @@ describe 'notInclude', ->
     notInclude 1, [null, 2]
     notInclude null, [1, undefined]
 
-  it "errors out when passed a string including the value", ->
+  it 'errors out when passed a string including the value', ->
     throws -> notInclude 'ho', 'hey ho'
     throws -> notInclude 'ho', 'hoopla'
     throws -> notInclude 'ho', 'what ho, Jeeves?'
 
-  it "errors out when passed a string matching the RegExp", ->
+  it 'errors out when passed a string matching the RegExp', ->
     throws -> notInclude /h[oe]/, 'hey ho'
     throws -> notInclude /^ho+pla$/, 'hoopla'
     throws -> notInclude /jeeves/i, 'what ho, Jeeves?'
@@ -421,7 +423,7 @@ describe 'notInclude', ->
     notInclude /SPELUNKING/, 'spelunking'
     notInclude /SAY, WHAT$/i, 'say, what?'
 
-  it "errors out when the array passed does include the value", ->
+  it 'errors out when the array passed does include the value', ->
     throws -> notInclude 0, [0]
     throws -> notInclude this, [this]
     throws -> notInclude null, [null]
@@ -463,7 +465,7 @@ describe 'match', ->
   it "doesn't break when also passed a docstring", ->
     match 'still fine and dandy', /^fo*/i, 'FOOBAR'
 
-  it "errors out when the RegExp does not match the passed string", ->
+  it 'errors out when the RegExp does not match the passed string', ->
     e = throws -> match /wrong case/, 'WRONG CASE'
     match /Expected: \/wrong case\/\nto match: .*"WRONG CASE"/, e.message
 
@@ -503,11 +505,11 @@ describe 'notMatch', ->
   it "doesn't break when also passed a docstring", ->
     notMatch 'still fine and dandy', /^not/, 'FOOBAR'
 
-  it "errors out when the RegExp matches the passed string", ->
+  it 'errors out when the RegExp matches the passed string', ->
     e = throws -> notMatch /problem/i, 'Problems found!'
     match /Expected: \/problem\/i\nnot to match: .*"Problems found!"/, e.message
 
-  it "shows how many matches we did find when passed a global RegExp", ->
+  it 'shows how many matches we did find when passed a global RegExp', ->
     e = throws -> notMatch /yo+/gi, 'Yo, yo, yo, yooo, man!'
     match /Matches: .*4\b/, e.message
 

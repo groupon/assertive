@@ -1,3 +1,5 @@
+'use strict'
+
 ###
 Copyright (c) 2013, Groupon, Inc.
 All rights reserved.
@@ -88,7 +90,7 @@ assert =
         what = if negated then 'always-failing test' else 'no-op test'
         throw error "#{what} detected: all strings contain the empty string!"
       unless isString(needle) or isNumber(needle) or isRegExp(needle)
-        problem = "needs a RegExp/String/Number needle for a String haystack"
+        problem = 'needs a RegExp/String/Number needle for a String haystack'
         throw new TypeError """#{name} #{problem}; you used:
           #{name} #{green stringify haystack}, #{red stringify needle}"""
     else unless isArray haystack
@@ -111,7 +113,7 @@ assert =
                      - needle: #{stringify needle}
                      haystack: #{abbreviate '', haystack}"""
         if isString(haystack) and isRegExp(needle)
-          message += ", but found:\n"
+          message += ', but found:\n'
           if needle.global
             message += contained.map((s) -> "* #{red stringify s}").join '\n'
           else
@@ -238,7 +240,7 @@ getNameOfType = (x) ->
 
 green = (x) -> "\x1B[32m#{ x }\x1B[39m"
 red = (x) -> "\x1B[31m#{ x }\x1B[39m"
-clear = "\x1b[39;49;00m"
+clear = '\x1b[39;49;00m'
 
 unless process?.stdout?.isTTY
   green = red = (x) -> "#{x}"
