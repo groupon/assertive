@@ -227,7 +227,7 @@ isType = (value, typeName) ->
 
 # gets the name of the type that value is an incarnation of
 getTypeName = (value) ->
-  _.find types, isType.bind this, value
+  _.find types, _.partial isType, value
 
 # translates any argument we were meant to interpret as a type, into its name
 getNameOfType = (x) ->
