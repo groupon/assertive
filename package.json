@@ -1,6 +1,6 @@
 {
   "name": "assertive",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Assertive is a terse yet expressive assertion library, designed and ideally suited for coffee-script",
   "license": "BSD-3-Clause",
   "main": "lib/assertive.js",

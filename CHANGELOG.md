@@ -1,3 +1,10 @@
+### 2.0.3
+
+* Apply latest nlm generator - **[@i-tier-bot](https://github.com/i-tier-bot)** [#25](https://github.com/groupon/assertive/pull/25)
+  - [`1eb5321`](https://github.com/groupon/assertive/commit/1eb5321691d6ca51287ded93d1ac00bee5037baa) **chore:** Apply latest nlm generator
+  - [`e4939c3`](https://github.com/groupon/assertive/commit/e4939c385b9ca79c0476918b43ae0c917e929004) **fix:** Use lodash 4 method names
+
+
 2.0.2
 -----
 * Change Fn.bind to _.partial to support non-ES5 environments - @rduenasf #23
