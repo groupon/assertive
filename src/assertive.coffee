@@ -35,7 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # eat _ off the global scope, or require it ourselves if missing
 
 global = Function('return this')()
-{contains, isEqual, isString, isNumber, isRegExp, isArray, isFunction, pluck} =
+{includes, isEqual, isString, isNumber, isRegExp, isArray, isFunction, map} =
 _ = global._ ? require 'lodash'
 
 
@@ -104,7 +104,7 @@ assert =
       else
         contained = haystack.indexOf(needle) isnt -1
     else
-      contained = contains haystack, needle
+      contained = includes haystack, needle
 
     verb = if isRegExp needle then 'match' else 'include'
     if negated
@@ -284,7 +284,7 @@ stringify = (x) ->
     return asRegExp val  if isRegExp val
     return val
   if typeof x isnt 'object' \
-  or contains ['Object', 'Array'], className = x.constructor.name
+  or includes ['Object', 'Array'], className = x.constructor.name
     return json
 
   if x instanceof Error or /Error/.test className
