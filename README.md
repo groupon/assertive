@@ -13,7 +13,7 @@ able to glean what you need immediately.
 
 It also tries to pre-empt false negative tests from ever happening, by
 rigorously testing for correct assertion invocation and by avoiding to
-pick names for assertions with a treck record of being misinterpreted,
+pick names for assertions with a track record of being misinterpreted,
 not just by people reading the code, but also by programmers _writing_
 them, which can make even 100%-test-coverage code fail on behalf of it
 testing for the wrong thing.
@@ -61,6 +61,12 @@ Actually: 10
 There have been test suites full of no-op tests similar to this, which
 have gone undetected for months or years, giving a false sense of what
 regressions you are guarded against.
+
+You may pass any of the functions an item to be tested as a promise,
+and it will be tested after the promise is resolved.  In this case, the
+test will return a promise which will be resolved or rejected as appropriate.
+A promise-aware test runner (e.g. [Mocha](https://mochajs.org/)
+version >= 1.18.0) is highly recommended.
 
 These docs show a typical invocation, and what you see when it failed:
 
@@ -174,10 +180,33 @@ assert.hasType(undefined, value)
 # same test for a more specific type (listed above) was true
 ```
 
+### `resolves`
+```
+promise = assert.resolves(promise)
+promise = assert.resolves(explanation, promise)
+# Wait for promise to resolve, then resolve if successful, reject otherwise
+# Always returns a promise, unless called with non-promise (not allowed)
+
+Assertion failed: should resolve to good stuff
+Promise was rejected despite resolves assertion:
+Timeout in 10000ms
+```
+
+### `rejects`
+```
+promiseForErr = assert.rejects(promise)
+promiseForErr = assert.rejects(explanation, promise)
+# Wait for promise to reject, resolve with error if it does, reject otherwise
+# Basically inverse of resolves(), but resolves with the error for more testing
+# Always returns a promise, unless called with non-promise (not allowed)
+
+Assertion failed: should reject after Timeout
+Promise wasn't rejected as expected to
+```
+
 ### `falsey`, `notEqual`, `notDeepEqual`, `notInclude`, `notMatch`, `notThrows`, `notHasType`
 Versions of the above functions taking the same arguments, but asserting
 the opposite outcome. The assertion failure messages are just as helpful.
-
 
 License
 ----------------------------------------------------------------------

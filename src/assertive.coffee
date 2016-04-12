@@ -39,7 +39,7 @@ global = Function('return this')()
 _ = global._ ? require 'lodash'
 
 
-assert =
+assertSync =
   truthy: (bool) ->
     [name, negated] = handleArgs this, [1, 2], arguments, 'truthy'
     [explanation, bool] = arguments  if arguments.length is 2
@@ -49,9 +49,9 @@ assert =
   expect: (bool) ->
     [explanation, bool] = arguments  if arguments.length is 2
     if explanation
-      assert.equal explanation, true, bool
+      assertSync.equal explanation, true, bool
     else
-      assert.equal true, bool
+      assertSync.equal true, bool
 
   equal: (expected, actual) ->
     [name, negated] = handleArgs this, [2, 3], arguments, 'equal'
@@ -188,8 +188,10 @@ assert =
       message = "Expected value #{value} #{toBeOrNotToBe} of type #{stringType}"
       throw error message, explanation
 
+
 nameNegative = (name) ->
   return 'falsey'  if name is 'truthy'
+  return 'rejects' if name is 'resolves'
   'not' + name.charAt().toUpperCase() + name.slice 1
 
 # produce negatived versions of all the common assertion functions
@@ -203,7 +205,42 @@ positiveAssertions = [
   'hasType'
 ]
 for name in positiveAssertions
-  assert[nameNegative name] = do (name) -> -> assert[name].apply '!', arguments
+  assertSync[nameNegative name] = do (name) -> ->
+    assertSync[name].apply '!', arguments
+
+# promise-specific tests
+assert =
+  resolves: (testee) ->
+    [name, negated] = handleArgs this, [1, 2], arguments, 'resolves'
+    [explanation, testee] = arguments if arguments.length is 2
+
+    unless isPromiseAlike testee
+      throw error(
+        "#{name} expects #{green 'a promise'} but got #{red stringify testee}"
+      )
+
+    if name is 'rejects'
+      testee.then(
+        (-> throw error "Promise wasn't rejected as expected to", explanation),
+        (err) -> err
+      )
+    else
+      testee.catch (err) ->
+        throw error """Promise was rejected despite resolves assertion:
+                       #{err?.message ? err}""", explanation
+
+  rejects: (testee) -> assert.resolves.apply '!', arguments
+
+# union of promise-specific and promise-aware wrapped synchronous tests
+for own name, fn of assertSync
+  do (name, fn) ->
+    assert[name] = (args...) ->
+      return fn() unless args.length
+      testee = args.pop()
+      if isPromiseAlike testee
+        testee.then (val) -> fn args..., val
+      else
+        fn args..., testee
 
 # listing the most specific types first lets us iterate in order and verify that
 # the expected type was the first match
@@ -342,6 +379,9 @@ handleArgs = (self, count, args, name, help) ->
 
   help = help()  if typeof help is 'function'
   throw error message, help
+
+# borrowed from Q
+isPromiseAlike = (p) -> p is Object(p) and 'function' is typeof p.then
 
 # export as a module to node - or to the global scope, if not
 if (module?.exports?)
