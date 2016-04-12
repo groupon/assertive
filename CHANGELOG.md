@@ -1,3 +1,9 @@
+### 2.1.0
+
+* feat: integrate assertive-as-promised functionality - **[@dbushong](https://github.com/dbushong)** [#26](https://github.com/groupon/assertive/pull/26)
+  - [`c9be116`](https://github.com/groupon/assertive/commit/c9be1165235696c773b50b0b80e15ec6bb143633) **feat:** integrate assertive-as-promised functionality
+
+
 ### 2.0.3
 
 * Apply latest nlm generator - **[@i-tier-bot](https://github.com/i-tier-bot)** [#25](https://github.com/groupon/assertive/pull/25)
