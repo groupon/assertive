@@ -1,5 +1,7 @@
 'use strict'
 
+Promise = require 'bluebird'
+
 { truthy,    falsey
 , expect,    notExpect
 , equal,     notEqual
@@ -8,6 +10,7 @@
 , match,     notMatch
 , throws,    notThrows
 , hasType,   notHasType
+, resolves,  rejects
 } = require '../lib/assertive'
 
 describe 'throws', ->
@@ -634,3 +637,25 @@ describe 'notHasType', ->
   it 'recognizes not-undefined', ->
     notHasType undefined, null
     throws -> notHasType undefined, undefined
+
+describe 'rejects', ->
+  it 'errors synchronously on non-promise', ->
+    match /^rejects expects/, throws(-> rejects 42).message
+
+  it 'resolves for a rejected promise', ->
+    equal 'kittens', rejects Promise.reject 'kittens'
+
+  it 'rejects a resolved promise', ->
+    equal "Promise wasn't rejected as expected to",
+      rejects(rejects Promise.resolve 42).get('message')
+
+describe 'resolves', ->
+  it 'errors synchronously on non-promise', ->
+    match /^resolves expects/, throws(-> resolves {}).message
+
+  it 'rejects for a rejected promise', ->
+    include 'Promise was rejected despite resolves assertion:\n42',
+      rejects(resolves Promise.reject new Error 42).get('message')
+
+  it 'resolves for a resolved promise', ->
+    equal 'kittens', resolves Promise.resolve 'kittens'
