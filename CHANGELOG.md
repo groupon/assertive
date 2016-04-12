@@ -1,3 +1,9 @@
+### 2.1.1
+
+* chore: fix who travis credits for auto-commits - **[@dbushong](https://github.com/dbushong)** [#27](https://github.com/groupon/assertive/pull/27)
+  - [`0ff64b5`](https://github.com/groupon/assertive/commit/0ff64b53cdbdcbe82fe6cf5df21a0255305c0300) **chore:** fix who travis credits for auto-commits
+
+
 ### 2.1.0
 
 * feat: integrate assertive-as-promised functionality - **[@dbushong](https://github.com/dbushong)** [#26](https://github.com/groupon/assertive/pull/26)
