@@ -1,3 +1,11 @@
+### 2.2.0
+
+* better JSON Expected/Actual output in Errors - **[@dbushong](https://github.com/dbushong)** [#28](https://github.com/groupon/assertive/pull/28)
+  - [`25d8d5f`](https://github.com/groupon/assertive/commit/25d8d5f3115a753e26b92979160e7280f1137d00) **chore:** upgrade pkg deps
+  - [`dc15426`](https://github.com/groupon/assertive/commit/dc15426a44cc91e5c70b4417764ca1e955e71c1a) **feat:** better JSON Expected/Actual output
+  - [`177b881`](https://github.com/groupon/assertive/commit/177b88178f2194ea368ea9075e2ac2ddd1e94a08) **test:** add tests for prettyprinted JSON
+
+
 ### 2.1.1
 
 * chore: fix who travis credits for auto-commits - **[@dbushong](https://github.com/dbushong)** [#27](https://github.com/groupon/assertive/pull/27)
