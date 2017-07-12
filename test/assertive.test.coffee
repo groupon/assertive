@@ -252,6 +252,9 @@ describe 'deepEqual', ->
     err = throws -> deepEqual explanation, [null], [undefined]
     include explanation, err.message
 
+  it 'prettyprints Actual and Expected values', ->
+    err = throws -> deepEqual { b: 2, a: 1 }, { b: 3, a: 1 }
+    match /"a": 1,\n  "b": 2\n[^]+"a": 1,\n  "b": 3\n/, err.message
 
 describe 'notDeepEqual', ->
   it 'errors out when you provide too few or too many args', ->
