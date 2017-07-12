@@ -311,15 +311,19 @@ asRegExp = (re) ->
 
 toString = Object::toString
 
+stringifyReplacer = (key, val) ->
+  return toString val  if typeof val is 'function'
+  return asRegExp val  if isRegExp val
+  if _.isObject(val) and not _.isArray(val)
+    return _(val).toPairs().sortBy(0).fromPairs().value()
+  val
+
 stringify = (x) ->
   return "#{x}"  unless x?
   return 'NaN'  if _.isNaN x
   return asRegExp x  if isRegExp x
   return x.toString()  if typeof x is 'symbol'
-  json = JSON.stringify x, (key, val) ->
-    return toString val  if typeof val is 'function'
-    return asRegExp val  if isRegExp val
-    return val
+  json = JSON.stringify x, stringifyReplacer, 2
   if typeof x isnt 'object' \
   or includes ['Object', 'Array'], className = x.constructor.name
     return json
