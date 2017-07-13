@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-  - '0.10'
   - '4'
+  - '6'
 before_install:
   - npm install -g npm@latest-2
 before_deploy:
@@ -13,4 +13,4 @@ deploy:
   skip_cleanup: true
   'on':
     branch: master
-    node: '4'
+    node: '6'
