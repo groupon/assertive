@@ -1,3 +1,11 @@
+### 2.2.1
+
+* refactor: get rid of coffeescript - **[@dbushong](https://github.com/dbushong)** [#29](https://github.com/groupon/assertive/pull/29)
+  - [`bf88f28`](https://github.com/groupon/assertive/commit/bf88f284dbc11756213803be67033c5d3a4ded24) **refactor:** get rid of coffeescript
+  - [`76bc3d0`](https://github.com/groupon/assertive/commit/76bc3d050a0cc8e50494726b360c8bac6f1aab04) **test:** test on node v4 & 6
+  - [`2f1e063`](https://github.com/groupon/assertive/commit/2f1e063ce1c60c5579e178a2b71c1bd7c5815bbc) **chore:** misc. cleanup
+
+
 ### 2.2.0
 
 * better JSON Expected/Actual output in Errors - **[@dbushong](https://github.com/dbushong)** [#28](https://github.com/groupon/assertive/pull/28)
