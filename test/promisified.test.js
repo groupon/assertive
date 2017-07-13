@@ -3,7 +3,7 @@
 // test the auto-promise-awarified versions of common tests
 
 const Bluebird = require('bluebird');
-const assert = require('../lib/assertive');
+const assert = require('../');
 const _ = require('lodash');
 
 const syncFuncs = {

@@ -15,8 +15,7 @@
   "scripts": {
     "pretest": "eslint lib test",
     "test": "mocha",
-    "posttest": "nlm verify",
-    "test-run": "eslint lib test && mocha"
+    "posttest": "nlm verify"
   },
   "engines": {
     "node": ">=0.8"

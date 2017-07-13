@@ -22,19 +22,7 @@ const notHasType = assert.notHasType;
 const resolves = assert.resolves;
 const rejects = assert.rejects;
 
-// helper from decaffeinate - useful for now
-/* eslint-disable */
-function __range__(left, right, inclusive) {
-  const range = [];
-  const ascending = left < right;
-  // eslint-disable-next-line no-nested-ternary
-  const end = !inclusive ? right : ascending ? right + 1 : right - 1;
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i);
-  }
-  return range;
-}
-/* eslint-enable */
+const twoThousand = _.range(1, 2001);
 
 describe('throws', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -470,7 +458,7 @@ haystack: ""`, err.message);
   });
 
   it('shortens larger haystacks in the assertion message', () => {
-    const err = throws(() => include(2001, __range__(1, 2000, true)));
+    const err = throws(() => include(2001, twoThousand));
     match(/^include [\s\S]*haystack: Array\[length: 2000; \d* JSON/, err.message);
   });
 });
@@ -556,7 +544,7 @@ describe('notInclude', () => {
   });
 
   it('shortens larger haystacks in the assertion message', () => {
-    const err = throws(() => notInclude(2000, __range__(1, 2000, true)));
+    const err = throws(() => notInclude(2000, twoThousand));
     match(/notInclude[\s\S]*stack: Array\[length: 2000; \d* JSON/, err.message);
   });
 });
@@ -606,7 +594,7 @@ describe('match', () => {
   });
 
   it('shortens larger strings in the assertion message', () => {
-    const e = throws(() => match(/4711/, JSON.stringify(__range__(1, 2000, true))));
+    const e = throws(() => match(/4711/, JSON.stringify(twoThousand)));
     include('string String[length: 8894]', e.message);
   });
 });
@@ -657,7 +645,7 @@ describe('notMatch', () => {
   });
 
   it('shortens larger strings in the assertion message', () => {
-    const e = throws(() => notMatch(/200/, JSON.stringify(__range__(1, 2000, true))));
+    const e = throws(() => notMatch(/200/, JSON.stringify(twoThousand)));
     include('string String[length: 8894]', e.message);
   });
 });
