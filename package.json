@@ -1,24 +1,22 @@
 {
   "name": "assertive",
   "version": "2.2.0",
-  "description": "Assertive is a terse yet expressive assertion library, designed and ideally suited for coffee-script",
+  "description": "Assertive is a terse yet expressive assertion library",
   "license": "BSD-3-Clause",
   "main": "lib/assertive.js",
   "homepage": "https://github.com/groupon/assertive",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/groupon/assertive"
+    "url": "https://github.com/groupon/assertive"
   },
   "bugs": {
     "url": "https://github.com/groupon/assertive/issues"
   },
   "scripts": {
-    "build": "rm -rf lib && coffee --no-header -cbo lib src",
-    "pretest": "npm run build",
+    "pretest": "eslint lib test",
     "test": "mocha",
     "posttest": "nlm verify",
-    "test-run": "coffeelint src test && mocha",
-    "watch": "coffee --no-header -wcbo lib src & nodemon -w lib -w test -e coffee,js,json -x \"mocha\""
+    "test-run": "eslint lib test && mocha"
   },
   "engines": {
     "node": ">=0.8"
@@ -34,10 +32,12 @@
     "lodash": "^4.6.1"
   },
   "devDependencies": {
+    "assertive": "^2.1.0",
     "bluebird": "^3.3.4",
-    "coffee-script": "^1.10.0",
-    "coffeelint": "^1.10.1",
-    "coffeelint-use-strict": "0.0.1",
+    "eslint": "^3.0.0",
+    "eslint-config-groupon-node4": "^4.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^2.0.0",
     "mocha": "^3.1.2",
     "nlm": "^3.0.0",
     "nodemon": "^1.0.0"

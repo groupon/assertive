@@ -72,15 +72,14 @@ These docs show a typical invocation, and what you see when it failed:
 
 
 ### `expect`
-```
-assert.expect(bool)
-# fail if bool != true
+```javascript
+// fail if bool != true
+assert.expect(bool);
 ```
 
-```
-expect '2 > 1', 2 > 1
-
-Assertion failed: 2 > 1
+```javascript
+expect('2 > 1', 2 > 1);
+// Assertion failed: 2 > 1
 ```
 
 
@@ -92,77 +91,79 @@ Only use `truthy` when there is no way of knowing what the actual value will be.
 If `bool` is the result of a boolean operation, use `expect`.
 If `bool` is an unknown value, use `match` or `include` to narrow it down.
 
-```
-assert.truthy(bool)
-assert.truthy(explanation, bool)
-# fail if !bool
+```javascript
+// fail if !bool
+assert.truthy(bool);
+assert.truthy(explanation, bool);
 ```
 
-```
-truthy 'something was populated in the email field', form.email.value
+```javascript
+truthy('something was populated in the email field', form.email.value);
 
-Assertion failed: something was populated in the email field
-expected undefined to be truthy
+// Assertion failed: something was populated in the email field
+// expected undefined to be truthy
 ```
 
 
 ### `equal`
-```
-assert.equal(expected, actual)
-assert.equal(explanation, expected, actual)
-# fail unless actual === expected
+```javascript
+// fail unless actual === expected
+assert.equal(expected, actual);
+assert.equal(explanation, expected, actual);
 
-Assertion failed: decode the Epoch to 0s after Jan 1st, 1970
-Expected 86400000 to be
-equal to 0
+// Assertion failed: decode the Epoch to 0s after Jan 1st, 1970
+// Expected 86400000 to be
+// equal to 0
 ```
 
 ### `deepEqual`
-```
-assert.deepEqual(expected, actual)
-assert.deepEqual(explanation, expected, actual)
-# fail unless _.isEqual(expected, actual)
+```javascript
+// fail unless _.isEqual(expected, actual)
+assert.deepEqual(expected, actual);
+assert.deepEqual(explanation, expected, actual);
 
-Assertion failed: ensure that all methods we tested were handled, and in the right order
-mismatch: {"methods":["GET"]} didn't
-deepEqual {"methods":["GET","POST","PUT","DELETE"]}
+// Assertion failed: ensure that all methods we tested were handled, and in the right order
+// mismatch: {"methods":["GET"]} didn't
+// deepEqual {"methods":["GET","POST","PUT","DELETE"]}
 ```
 
 ### `include`
-```
-assert.include(needle, haystack)
-assert.include(explanation, needle, haystack)
-# fail unless haystack has a substring needle, or _.include haystack, needle
+```javascript
+// fail unless haystack has a substring needle, or _.include haystack, needle
+assert.include(needle, haystack);
+assert.include(explanation, needle, haystack);
 
-Assertion failed: only accept supported, case-normalized method names
-expected ["GET","POST","PUT","DELETE"]
-to include "get"
+// Assertion failed: only accept supported, case-normalized method names
+// expected ["GET","POST","PUT","DELETE"]
+// to include "get"
 ```
 
 ### `match`
-```
-assert.match(regexp, string)
-assert.match(explanation, regexp, needle)
-# fail unless regexp matches the given string, or regexp.test string
+```javascript
+// fail unless regexp matches the given string, or regexp.test string
+assert.match(regexp, string);
+assert.match(explanation, regexp, needle);
 
-Assertion failed: only affirmative pirate answers accepted
-Expected: /aye|yar+/
-to match: "nay"
+// Assertion failed: only affirmative pirate answers accepted
+// Expected: /aye|yar+/
+// to match: "nay"
 ```
 
 ### `throws`
-```
-err = assert.throws(functionThatThrows)
-err = assert.throws(explanation, functionThatThrows)
-# fail unless the provided functionThatThrows() calls throw
-# (on non-failures the return value is whatever was thrown)
+```javascript
+// fail unless the provided functionThatThrows() calls throw
+// (on non-failures the return value is whatever was thrown)
+const err = assert.throws(functionThatThrows);
+const err = assert.throws(explanation, functionThatThrows);
 
-Assertion failed: ensure that bad inputs throw an error
-didn't throw an exception as expected to
+// Assertion failed: ensure that bad inputs throw an error
+// didn't throw an exception as expected to
 ```
 
 ### `hasType`
-```
+```javascript
+// fail unless _.isType(value) is true for given Type, or the
+// same test for a more specific type (listed above) was true
 assert.hasType(<type>, value);
 assert.hasType(explanation, <type>, value);
 assert.hasType(null, value)
@@ -176,32 +177,30 @@ assert.hasType(Object, value)
 assert.hasType(NaN, value)
 assert.hasType(Number, value)
 assert.hasType(undefined, value)
-# fail unless _.isType(value) is true for given Type, or the
-# same test for a more specific type (listed above) was true
 ```
 
 ### `resolves`
-```
-promise = assert.resolves(promise)
-promise = assert.resolves(explanation, promise)
-# Wait for promise to resolve, then resolve if successful, reject otherwise
-# Always returns a promise, unless called with non-promise (not allowed)
+```javascript
+// Wait for promise to resolve, then resolve if successful, reject otherwise
+// Always returns a promise, unless called with non-promise (not allowed)
+const samePromise = assert.resolves(promise)
+const samePromise = assert.resolves(explanation, promise)
 
-Assertion failed: should resolve to good stuff
-Promise was rejected despite resolves assertion:
-Timeout in 10000ms
+// Assertion failed: should resolve to good stuff
+// Promise was rejected despite resolves assertion:
+// Timeout in 10000ms
 ```
 
 ### `rejects`
-```
-promiseForErr = assert.rejects(promise)
-promiseForErr = assert.rejects(explanation, promise)
-# Wait for promise to reject, resolve with error if it does, reject otherwise
-# Basically inverse of resolves(), but resolves with the error for more testing
-# Always returns a promise, unless called with non-promise (not allowed)
+```javascript
+// Wait for promise to reject, resolve with error if it does, reject otherwise
+// Basically inverse of resolves(), but resolves with the error for more testing
+// Always returns a promise, unless called with non-promise (not allowed)
+const promiseForErr = assert.rejects(promise)
+const promiseForErr = assert.rejects(explanation, promise)
 
-Assertion failed: should reject after Timeout
-Promise wasn't rejected as expected to
+// Assertion failed: should reject after Timeout
+// Promise wasn't rejected as expected to
 ```
 
 ### `falsey`, `notEqual`, `notDeepEqual`, `notInclude`, `notMatch`, `notThrows`, `notHasType`
