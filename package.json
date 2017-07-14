@@ -13,7 +13,7 @@
     "url": "https://github.com/groupon/assertive/issues"
   },
   "scripts": {
-    "pretest": "eslint lib test",
+    "pretest": "eslint src test && babel --source-maps=true --out-dir=lib src",
     "test": "mocha",
     "posttest": "nlm verify"
   },
@@ -33,8 +33,11 @@
   },
   "devDependencies": {
     "assertive": "^2.1.0",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "bluebird": "^3.3.4",
     "eslint": "^3.0.0",
+    "eslint-config-groupon": "^4.0.0",
     "eslint-config-groupon-node4": "^4.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^2.0.0",
