@@ -122,9 +122,19 @@ assert.equal(explanation, expected, actual);
 assert.deepEqual(expected, actual);
 assert.deepEqual(explanation, expected, actual);
 
-// Assertion failed: ensure that all methods we tested were handled, and in the right order
-// mismatch: {"methods":["GET"]} didn't
-// deepEqual {"methods":["GET","POST","PUT","DELETE"]}
+/*
+Assertion failed: ensure that all methods we tested were handled, and in the right order
+Actual: - Expected: +
+  {
+    "methods": [
+      "GET",
+-     "GET",
++     "POST",
++     "PUT",
++     "DELETE"
+    ]
+  }
+*/
 ```
 
 ### `include`
