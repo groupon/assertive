@@ -28,6 +28,7 @@
     }
   },
   "dependencies": {
+    "diff": "^3.3.0",
     "lodash": "^4.6.1"
   },
   "devDependencies": {

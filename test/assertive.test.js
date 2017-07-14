@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const assert = require('assertive');
+const assert = require('../');
 
 // c'mon node6
 const truthy = assert.truthy;
@@ -47,7 +47,7 @@ describe('throws', () => {
     equal(throws(() => { throw 'we suck'; }), 'we suck');
   });
 
-  return it('includes your helpful explanation, when provided', () => {
+  it('includes your helpful explanation, when provided', () => {
     const explanation = 'No error was thrown - this is a problem';
     const err = throws(() => throws(explanation, () => {}));
     include(explanation, err.message);
@@ -79,7 +79,7 @@ describe('notThrows', () => {
     include('assertion:\n68040', caught.message);
   });
 
-  return it('includes your helpful explanation, when provided', () => {
+  it('includes your helpful explanation, when provided', () => {
     const explanation = 'No error was thrown - this is a problem';
     const err = throws(() => notThrows(explanation, () => { throw new Error('aiee!'); }));
     include(explanation, err.message);
@@ -262,15 +262,15 @@ describe('notEqual', () => {
     throws(function shouldThrow() { return notEqual(this, this); });
     throws(() => notEqual(null, null));
     throws(() => {
-      let x;
-      return notEqual((x = []), x);
+      const x = [];
+      return notEqual(x, x);
     });
     throws(() => notEqual(undefined, undefined));
     throws(() => notEqual(false, false));
     throws(() => notEqual(true, true));
   });
 
-  return it('includes your helpful explanation, when provided', () => {
+  it('includes your helpful explanation, when provided', () => {
     const explanation = "it doesn't get more equal than identical";
     const err = throws(() => notEqual(explanation, Math.PI, Math.PI));
     include(explanation, err.message);
@@ -318,9 +318,9 @@ describe('deepEqual', () => {
     include(explanation, err.message);
   });
 
-  return it('prettyprints Actual and Expected values', () => {
+  it('diffs Actual and Expected values', () => {
     const err = throws(() => deepEqual({ b: 2, a: 1 }, { b: 3, a: 1 }));
-    match(/"a": 1,\n {2}"b": 2\n[^]+"a": 1,\n {2}"b": 3\n/, err.message);
+    match(/"a": 1,\n.+- {3}"b": 3.+\n.+\+ {3}"b": 2/, err.message);
   });
 });
 
