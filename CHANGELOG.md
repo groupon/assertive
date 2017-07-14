@@ -1,3 +1,9 @@
+### 2.3.0
+
+* feat: show object diffs in deepEqual errors - **[@dbushong](https://github.com/dbushong)** [#30](https://github.com/groupon/assertive/pull/30)
+  - [`d8065c1`](https://github.com/groupon/assertive/commit/d8065c17d110778d4e31b8eef146083a1add1263) **feat:** show object diffs in deepEqual errors
+
+
 ### 2.2.1
 
 * refactor: get rid of coffeescript - **[@dbushong](https://github.com/dbushong)** [#29](https://github.com/groupon/assertive/pull/29)
