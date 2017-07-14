@@ -1,3 +1,9 @@
+### 2.3.1
+
+* chore: compile with babel for browser-compat - **[@dbushong](https://github.com/dbushong)** [#31](https://github.com/groupon/assertive/pull/31)
+  - [`b2909e8`](https://github.com/groupon/assertive/commit/b2909e8548006e0fb62ade6b43d6c342ebab9282) **chore:** compile with babel for browser-compat
+
+
 ### 2.3.0
 
 * feat: show object diffs in deepEqual errors - **[@dbushong](https://github.com/dbushong)** [#30](https://github.com/groupon/assertive/pull/30)
