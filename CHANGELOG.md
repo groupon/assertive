@@ -1,3 +1,9 @@
+### 2.3.2
+
+* chore: minor package and ci run cleanup - **[@dbushong](https://github.com/dbushong)** [#32](https://github.com/groupon/assertive/pull/32)
+  - [`d92b979`](https://github.com/groupon/assertive/commit/d92b979dfb75f79d05473707b1e1bdce3b613958) **chore:** minor package and ci run cleanup
+
+
 ### 2.3.1
 
 * chore: compile with babel for browser-compat - **[@dbushong](https://github.com/dbushong)** [#31](https://github.com/groupon/assertive/pull/31)
