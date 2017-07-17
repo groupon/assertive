@@ -69,10 +69,8 @@ let assert;
 // eslint-disable-next-line global-require
 const _ = global._ || require('lodash');
 
-// we can make this optional for browser use
-let jsDiff;
-// eslint-disable-next-line global-require
-try { jsDiff = require('diff'); } catch (err) { /* */ }
+// may be stubbed out for browsers
+const jsDiff = require('diff');
 
 const toString = Object.prototype.toString;
 
@@ -313,7 +311,7 @@ ${red(wrongLooks)}`, explanation);
     if (wrongLooks === rightLooks) {
       message = `deepEqual ${green(rightLooks)} failed on something that\n` +
         'serializes to the same result (likely some function)';
-    } else if (jsDiff) {
+    } else {
       const values = jsDiff.diffJson(actual, expected).map((entry) => {
         let value = entry.value;
         let prefix = '  ';
@@ -326,9 +324,6 @@ ${red(wrongLooks)}`, explanation);
       });
       message =
         `Actual: ${red('-')} Expected: ${green('+')}\n${values.join('\n')}`;
-    } else {
-      message = `Expected: ${green(rightLooks)}\n Actually: ` +
-        `${red(wrongLooks)}`;
     }
 
     throw error(message, explanation);
