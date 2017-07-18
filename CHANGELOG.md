@@ -1,3 +1,9 @@
+### 2.3.3
+
+* fix: don't try to require('diff') for browsers - **[@dbushong](https://github.com/dbushong)** [#34](https://github.com/groupon/assertive/pull/34)
+  - [`bf8e03a`](https://github.com/groupon/assertive/commit/bf8e03a22da8f584df54f07264f96eaedc0418fb) **fix:** don't try to require('diff') for browsers
+
+
 ### 2.3.2
 
 * chore: minor package and ci run cleanup - **[@dbushong](https://github.com/dbushong)** [#32](https://github.com/groupon/assertive/pull/32)
