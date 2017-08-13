@@ -78,7 +78,7 @@ let green = x => `\x1B[32m${x}\x1B[39m`;
 let red = x => `\x1B[31m${x}\x1B[39m`;
 let clear = '\x1b[39;49;00m';
 
-if (global.process && process.isTTY && process.isTTY()) {
+if (!(global.process && process.stdout && process.stdout.isTTY)) {
   red = x => `${x}`;
   green = red;
   clear = '';

@@ -320,7 +320,7 @@ describe('deepEqual', () => {
 
   it('diffs Actual and Expected values', () => {
     const err = throws(() => deepEqual({ b: 2, a: 1 }, { b: 3, a: 1 }));
-    match(/"a": 1,\n.+- {3}"b": 3.+\n.+\+ {3}"b": 2/, err.message);
+    match(/"a": 1,\n.*- {3}"b": 3.*\n.*\+ {3}"b": 2/, err.message);
   });
 });
 
