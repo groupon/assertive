@@ -1,3 +1,9 @@
+### 2.3.4
+
+* fix: correct isTTY logic for colorization - **[@dbushong](https://github.com/dbushong)** [#37](https://github.com/groupon/assertive/pull/37)
+  - [`1860ca3`](https://github.com/groupon/assertive/commit/1860ca3402fb8960ec037fdadcd57fb2ef9dfc0c) **fix:** correct isTTY logic for colorization
+
+
 ### 2.3.3
 
 * fix: don't try to require('diff') for browsers - **[@dbushong](https://github.com/dbushong)** [#34](https://github.com/groupon/assertive/pull/34)
