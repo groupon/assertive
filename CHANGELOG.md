@@ -1,3 +1,9 @@
+### 2.3.5
+
+* apply latest generator & lint rules - **[@dbushong](https://github.com/dbushong)** [#39](https://github.com/groupon/assertive/pull/39)
+  - [`edafdef`](https://github.com/groupon/assertive/commit/edafdefe3db0eadee5566d09ce22eb0fc3d9cad8) **chore:** apply latest generator & lint rules
+
+
 ### 2.3.4
 
 * fix: correct isTTY logic for colorization - **[@dbushong](https://github.com/dbushong)** [#37](https://github.com/groupon/assertive/pull/37)
