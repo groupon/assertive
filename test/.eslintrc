@@ -1,5 +1,5 @@
 {
-  "extends": "groupon-node4",
+  "extends": "groupon/node4",
   "env": {
     "mocha": true
   }

@@ -32,7 +32,10 @@ describe('throws', () => {
 
   it('notes that arg 1 must be a string when called with 2 args', () => {
     const err = throws(() => throws(1, 'description in wrong arg'));
-    include('called with 2 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 2 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it('errors out unless you pass a function to execute', () => {
@@ -42,9 +45,19 @@ describe('throws', () => {
 
   it('returns the exception that was thrown by the provided function', () => {
     const exception = new Error(68040);
-    equal(throws(() => { throw exception; }), exception);
+    equal(
+      throws(() => {
+        throw exception;
+      }),
+      exception
+    );
     // eslint-disable-next-line no-throw-literal
-    equal(throws(() => { throw 'we suck'; }), 'we suck');
+    equal(
+      throws(() => {
+        throw 'we suck';
+      }),
+      'we suck'
+    );
   });
 
   it('includes your helpful explanation, when provided', () => {
@@ -54,7 +67,6 @@ describe('throws', () => {
   });
 });
 
-
 describe('notThrows', () => {
   it('errors out when you provide too few or too many args', () => {
     throws(() => notThrows());
@@ -63,7 +75,10 @@ describe('notThrows', () => {
 
   it('notes that arg 1 must be a string when called with 2 args', () => {
     const err = throws(() => notThrows(1, 'description in wrong arg'));
-    include('called with 2 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 2 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it('errors out unless you pass a function to execute', () => {
@@ -73,15 +88,26 @@ describe('notThrows', () => {
 
   it('captures and shows exceptions thrown by the provided function', () => {
     const thrown = new Error(68040);
-    const caught = throws(() => notThrows(() => { throw thrown; }));
-    truthy('the exception thrown was caught and a new exception thrown', caught);
+    const caught = throws(() =>
+      notThrows(() => {
+        throw thrown;
+      })
+    );
+    truthy(
+      'the exception thrown was caught and a new exception thrown',
+      caught
+    );
     include('Threw an exception despite notThrows assertion:', caught.message);
     include('assertion:\n68040', caught.message);
   });
 
   it('includes your helpful explanation, when provided', () => {
     const explanation = 'No error was thrown - this is a problem';
-    const err = throws(() => notThrows(explanation, () => { throw new Error('aiee!'); }));
+    const err = throws(() =>
+      notThrows(explanation, () => {
+        throw new Error('aiee!');
+      })
+    );
     include(explanation, err.message);
   });
 });
@@ -120,11 +146,21 @@ function falseyOutcome(fn, outcome) {
   };
 }
 
-function truthyIsNoOp(fn) { return truthyOutcome(fn, notThrows); }
-function falseyIsNoOp(fn) { return falseyOutcome(fn, notThrows); }
-function truthyThrows(fn) { return truthyOutcome(fn, throws); }
-function falseyThrows(fn) { return falseyOutcome(fn, throws); }
-function nonTrueThrows(fn) { return nonTrueOutcome(fn, throws); }
+function truthyIsNoOp(fn) {
+  return truthyOutcome(fn, notThrows);
+}
+function falseyIsNoOp(fn) {
+  return falseyOutcome(fn, notThrows);
+}
+function truthyThrows(fn) {
+  return truthyOutcome(fn, throws);
+}
+function falseyThrows(fn) {
+  return falseyOutcome(fn, throws);
+}
+function nonTrueThrows(fn) {
+  return nonTrueOutcome(fn, throws);
+}
 
 describe('truthy', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -134,7 +170,10 @@ describe('truthy', () => {
 
   it('notes that arg 1 must be a string when called with 2 args', () => {
     const err = throws(() => truthy(true, 'description in wrong arg'));
-    include('called with 2 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 2 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it("doesn't do anything when passed a truthy value", () => {
@@ -144,12 +183,12 @@ describe('truthy', () => {
   it('errors out when passed a falsey value', falseyThrows(truthy));
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const err = throws(() => truthy(explanation, false));
     include(explanation, err.message);
   });
 });
-
 
 describe('falsey', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -159,7 +198,10 @@ describe('falsey', () => {
 
   it('notes that arg 1 must be a string when called with 2 args', () => {
     const err = throws(() => falsey(false, 'description in wrong arg'));
-    include('called with 2 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 2 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it("doesn't do anything when passed a falsey value", falseyIsNoOp(falsey));
@@ -172,7 +214,6 @@ describe('falsey', () => {
     include(explanation, err.message);
   });
 });
-
 
 describe('expect', () => {
   it('errors out when you provide too few or way too many args', () => {
@@ -194,7 +235,6 @@ describe('expect', () => {
   });
 });
 
-
 describe('equal', () => {
   it('errors out when you provide too few or too many args', () => {
     throws(() => equal());
@@ -204,7 +244,10 @@ describe('equal', () => {
 
   it('notes that arg 1 must be a string when called with 3 args', () => {
     const err = throws(() => equal(1, 1, 'description in wrong arg'));
-    include('called with 3 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 3 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it("doesn't do anything when passed two identical values", function _oneTest() {
@@ -223,7 +266,8 @@ describe('equal', () => {
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const err = throws(() => equal(explanation, 0, 1));
     include(explanation, err.message);
   });
@@ -237,7 +281,6 @@ describe('equal', () => {
   }
 });
 
-
 describe('notEqual', () => {
   it('errors out when you provide too few or too many args', () => {
     throws(() => notEqual());
@@ -247,7 +290,10 @@ describe('notEqual', () => {
 
   it('notes that arg 1 must be a string when called with 3 args', () => {
     const err = throws(() => notEqual(1, 2, 'description in wrong arg'));
-    include('called with 3 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 3 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it("doesn't do anything when passed two different values", function _oneTest() {
@@ -259,7 +305,9 @@ describe('notEqual', () => {
 
   it('errors out when passed two identical values', () => {
     throws(() => notEqual(0, 0));
-    throws(function shouldThrow() { return notEqual(this, this); });
+    throws(function shouldThrow() {
+      return notEqual(this, this);
+    });
     throws(() => notEqual(null, null));
     throws(() => {
       const x = [];
@@ -277,7 +325,6 @@ describe('notEqual', () => {
   });
 });
 
-
 describe('deepEqual', () => {
   it('errors out when you provide too few or too many args', () => {
     throws(() => deepEqual());
@@ -287,7 +334,10 @@ describe('deepEqual', () => {
 
   it('notes that arg 1 must be a string when called with 3 args', () => {
     const err = throws(() => deepEqual(1, 1, 'description in wrong arg'));
-    include('called with 3 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 3 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it("doesn't do anything when passed two deepEqual values", function _test() {
@@ -313,7 +363,8 @@ describe('deepEqual', () => {
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const err = throws(() => deepEqual(explanation, [null], [undefined]));
     include(explanation, err.message);
   });
@@ -333,7 +384,10 @@ describe('notDeepEqual', () => {
 
   it('notes that arg 1 must be a string when called with 3 args', () => {
     const err = throws(() => notDeepEqual(1, 2, 'description in wrong arg'));
-    include('called with 3 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 3 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it("doesn't do anything when passed two not deepEqual values", function _oneTest() {
@@ -360,12 +414,12 @@ describe('notDeepEqual', () => {
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const err = throws(() => notDeepEqual(explanation, [null], [null]));
     include(explanation, err.message);
   });
 });
-
 
 describe('include', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -376,20 +430,25 @@ describe('include', () => {
 
   it('notes that arg 1 must be a string when called with 3 args', () => {
     const err = throws(() => include(1, [1], 'description in wrong arg'));
-    include('called with 3 args, the first arg must be a docstring', err.message);
+    include(
+      'called with 3 args, the first arg must be a docstring',
+      err.message
+    );
   });
 
   it('throws TypeErrors on bad needles', () => {
     const saneNeedlesPlease = /needs a .* needle for a String haystack/;
     let e = throws(() => include(undefined, 'undefined? baad'));
     match(saneNeedlesPlease, e.message);
-    e = throws(() => include((() => {}), 'function? worse'));
+    e = throws(() => include(() => {}, 'function? worse'));
     match(saneNeedlesPlease, e.message);
     truthy('should throw TypeError', e instanceof TypeError);
   });
 
   it('throws an error for the no-op assertion string-contains-empty-string', () => {
-    const err = throws(() => include('', 'all strings include the empty string'));
+    const err = throws(() =>
+      include('', 'all strings include the empty string')
+    );
     const msg = 'no-op test detected: all strings contain the empty string!';
     include(msg, err.message);
   });
@@ -427,16 +486,22 @@ describe('include', () => {
 
   it('errors out the same way when testing for a needle in an empty array', () => {
     const err = throws(() => include('not present in array', []));
-    include(`include expected needle to be found in haystack
+    include(
+      `include expected needle to be found in haystack
 - needle: "not present in array"
-haystack: []`, err.message);
+haystack: []`,
+      err.message
+    );
   });
 
   it('errors out the same way when testing for a needle in an empty string', () => {
     const err = throws(() => include('not present in string', ''));
-    include(`include expected needle to be found in haystack
+    include(
+      `include expected needle to be found in haystack
 - needle: "not present in string"
-haystack: ""`, err.message);
+haystack: ""`,
+      err.message
+    );
   });
 
   it("errors out when the string passed doesn't match the RegExp", () => {
@@ -452,17 +517,20 @@ haystack: ""`, err.message);
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const err = throws(() => include(explanation, [undefined], [null]));
     include(explanation, err.message);
   });
 
   it('shortens larger haystacks in the assertion message', () => {
     const err = throws(() => include(2001, twoThousand));
-    match(/^include [\s\S]*haystack: Array\[length: 2000; \d* JSON/, err.message);
+    match(
+      /^include [\s\S]*haystack: Array\[length: 2000; \d* JSON/,
+      err.message
+    );
   });
 });
-
 
 describe('notInclude', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -480,7 +548,7 @@ describe('notInclude', () => {
     const saneNeedlesPlease = /needs a .* needle for a String haystack/;
     let e = throws(() => notInclude(undefined, 'undefined? baad'));
     match(saneNeedlesPlease, e.message);
-    e = throws(() => notInclude((() => {}), 'function? worse'));
+    e = throws(() => notInclude(() => {}, 'function? worse'));
     match(saneNeedlesPlease, e.message);
     truthy('should throw TypeError', e instanceof TypeError);
   });
@@ -492,8 +560,11 @@ describe('notInclude', () => {
   });
 
   it('throws an error for the bad assertion string-lacks-empty-string', () => {
-    const err = throws(() => notInclude('', 'all strings include the empty string'));
-    const want = 'always-failing test detected: all strings contain the empty string!';
+    const err = throws(() =>
+      notInclude('', 'all strings include the empty string')
+    );
+    const want =
+      'always-failing test detected: all strings contain the empty string!';
     include(want, err.message);
   });
 
@@ -532,13 +603,16 @@ describe('notInclude', () => {
 
   it('errors out when the array passed does include the value', () => {
     throws(() => notInclude(0, [0]));
-    throws(function shouldThrow() { return notInclude(this, [this]); });
+    throws(function shouldThrow() {
+      return notInclude(this, [this]);
+    });
     throws(() => notInclude(null, [null]));
     throws(() => notInclude(undefined, [undefined]));
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const err = throws(() => notInclude(explanation, null, [null]));
     include(explanation, err.message);
   });
@@ -548,7 +622,6 @@ describe('notInclude', () => {
     match(/notInclude[\s\S]*stack: Array\[length: 2000; \d* JSON/, err.message);
   });
 });
-
 
 describe('match', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -570,7 +643,10 @@ describe('match', () => {
 
   it('throws TypeErrors when called with a non-String', () => {
     const e = throws(() => match(/X/, undefined));
-    match(/string arg is not a String; you used:\nmatch .*X.*undefin/, e.message);
+    match(
+      /string arg is not a String; you used:\nmatch .*X.*undefin/,
+      e.message
+    );
     truthy('should throw TypeError', e instanceof TypeError);
   });
 
@@ -588,7 +664,8 @@ describe('match', () => {
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const e = throws(() => match(explanation, /aye/, 'nay'));
     include(explanation, e.message);
   });
@@ -598,7 +675,6 @@ describe('match', () => {
     include('string String[length: 8894]', e.message);
   });
 });
-
 
 describe('notMatch', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -620,17 +696,25 @@ describe('notMatch', () => {
 
   it('throws TypeErrors when called with a non-String', () => {
     const e = throws(() => notMatch(/x/, undefined));
-    match(/string arg is not a String; you used:\nnotMatch.*undefine/, e.message);
+    match(
+      /string arg is not a String; you used:\nnotMatch.*undefine/,
+      e.message
+    );
     truthy('should throw TypeError', e instanceof TypeError);
   });
 
-  it("doesn't do anything when passed a RegExp not matching the string", () => notMatch(/^not/, 'FOOBAR'));
+  it("doesn't do anything when passed a RegExp not matching the string", () =>
+    notMatch(/^not/, 'FOOBAR'));
 
-  it("doesn't break when also passed a docstring", () => notMatch('still fine and dandy', /^not/, 'FOOBAR'));
+  it("doesn't break when also passed a docstring", () =>
+    notMatch('still fine and dandy', /^not/, 'FOOBAR'));
 
   it('errors out when the RegExp matches the passed string', () => {
     const e = throws(() => notMatch(/problem/i, 'Problems found!'));
-    match(/Expected: \/problem\/i\nnot to match: .*"Problems found!"/, e.message);
+    match(
+      /Expected: \/problem\/i\nnot to match: .*"Problems found!"/,
+      e.message
+    );
   });
 
   it('shows how many matches we did find when passed a global RegExp', () => {
@@ -639,7 +723,8 @@ describe('notMatch', () => {
   });
 
   it('includes your helpful explanation, when provided', () => {
-    const explanation = 'Given falsum, we can derive anything, which is awesome!';
+    const explanation =
+      'Given falsum, we can derive anything, which is awesome!';
     const e = throws(() => notMatch(explanation, /woo/, 'woo!'));
     include(explanation, e.message);
   });
@@ -649,7 +734,6 @@ describe('notMatch', () => {
     include('string String[length: 8894]', e.message);
   });
 });
-
 
 describe('hasType', () => {
   it('errors out when you provide too few, too many, or incorrect args', () => {
@@ -703,8 +787,16 @@ describe('hasType', () => {
   it('recognizes Dates', () => {
     hasType(Date, new Date());
     const invalidDate = new Date('Invalid Date');
-    throws('Invalid Date tested as being a Date', () => hasType(Date, invalidDate));
-    throws('Object tested as being a Date', () => hasType(Date, { getTime() { return 0; } }));
+    throws('Invalid Date tested as being a Date', () =>
+      hasType(Date, invalidDate)
+    );
+    throws('Object tested as being a Date', () =>
+      hasType(Date, {
+        getTime() {
+          return 0;
+        },
+      })
+    );
   });
 
   it('recognizes null', () => {
@@ -717,7 +809,6 @@ describe('hasType', () => {
     throws('Object tested as being undefined', () => hasType(undefined, {}));
   });
 });
-
 
 describe('notHasType', () => {
   it('errors out when you provide too few, too many, or incorrect args', () => {
@@ -774,9 +865,15 @@ describe('notHasType', () => {
   });
 
   it('recognizes non-Dates', () => {
-    notHasType(Date, { getTime() { return 0; } });
+    notHasType(Date, {
+      getTime() {
+        return 0;
+      },
+    });
     notHasType(Date, new Date('Invalid Date'));
-    throws('Date tested as not being a Date', () => notHasType(Date, new Date()));
+    throws('Date tested as not being a Date', () =>
+      notHasType(Date, new Date())
+    );
   });
 
   it('recognizes not-null', () => {
@@ -791,23 +888,31 @@ describe('notHasType', () => {
 });
 
 describe('rejects', () => {
-  it('errors synchronously on non-promise', () => match(/^rejects expects/, throws(() => rejects(42)).message));
+  it('errors synchronously on non-promise', () =>
+    match(/^rejects expects/, throws(() => rejects(42)).message));
 
-  it('resolves for a rejected promise', () => equal('kittens', rejects(Promise.reject('kittens'))));
+  it('resolves for a rejected promise', () =>
+    equal('kittens', rejects(Promise.reject('kittens'))));
 
   it('rejects a resolved promise', () =>
-    equal("Promise wasn't rejected as expected to",
-      rejects(rejects(Promise.resolve(42))).then(_.property('message')))
-  );
+    equal(
+      "Promise wasn't rejected as expected to",
+      rejects(rejects(Promise.resolve(42))).then(_.property('message'))
+    ));
 });
 
 describe('resolves', () => {
-  it('errors synchronously on non-promise', () => match(/^resolves expects/, throws(() => resolves({})).message));
+  it('errors synchronously on non-promise', () =>
+    match(/^resolves expects/, throws(() => resolves({})).message));
 
   it('rejects for a rejected promise', () =>
-    include('Promise was rejected despite resolves assertion:\n42',
-      rejects(resolves(Promise.reject(new Error(42)))).then(_.property('message')))
-  );
+    include(
+      'Promise was rejected despite resolves assertion:\n42',
+      rejects(resolves(Promise.reject(new Error(42)))).then(
+        _.property('message')
+      )
+    ));
 
-  it('resolves for a resolved promise', () => equal('kittens', resolves(Promise.resolve('kittens'))));
+  it('resolves for a resolved promise', () =>
+    equal('kittens', resolves(Promise.resolve('kittens'))));
 });
