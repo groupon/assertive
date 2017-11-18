@@ -2,10 +2,11 @@ language: node_js
 node_js:
   - '4'
   - '6'
+  - '8'
 deploy:
   provider: script
   script: ./node_modules/.bin/nlm release
   skip_cleanup: true
   'on':
     branch: master
-    node: '6'
+    node: '8'

@@ -29,6 +29,9 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+'use strict';
+
 // can't require('diff') properly with browserify, so just fall back on this
 function diffJson(a, b) {
   return [

@@ -9,7 +9,8 @@ const _ = require('lodash');
 const syncFuncs = {
   truthy: {
     pass: {
-      args: [true], descr: 'a truthy promise resolution',
+      args: [true],
+      descr: 'a truthy promise resolution',
     },
     fail: {
       args: [false],
@@ -19,7 +20,9 @@ const syncFuncs = {
   },
 
   equal: {
-    pass: { args: [5, 5], descr: 'an equal promise resolution',
+    pass: {
+      args: [5, 5],
+      descr: 'an equal promise resolution',
     },
     fail: {
       args: [5, 6],
@@ -53,7 +56,9 @@ const syncFuncs = {
   },
 
   match: {
-    pass: { args: [/x/, 'fox'], descr: 'match /x/',
+    pass: {
+      args: [/x/, 'fox'],
+      descr: 'match /x/',
     },
     fail: {
       args: [/x/, 'dog'],
@@ -65,7 +70,11 @@ const syncFuncs = {
   throws: {
     pass: {
       // eslint-disable-next-line no-throw-literal
-      args: [() => { throw 'foo'; }],
+      args: [
+        () => {
+          throw 'foo';
+        },
+      ],
       descr: 'a promise for an excepting function',
     },
     fail: {
@@ -82,7 +91,11 @@ const syncFuncs = {
     },
     fail: {
       // eslint-disable-next-line no-throw-literal
-      args: [() => { throw 'foo'; }],
+      args: [
+        () => {
+          throw 'foo';
+        },
+      ],
       descr: 'a promise for an excepting function',
       explain: 'function does not throw an exception',
     },
@@ -106,11 +119,12 @@ describe('promise-aware functionality', () => {
     const pass = bits.pass;
     const fail = bits.fail;
 
-    ['pass', 'fail'].forEach((pf) => {
+    ['pass', 'fail'].forEach(pf => {
       // replace last argument with promised resolution of same
       const args = bits[pf].args;
-      bits[pf].pargs = args.slice(0, args.length - 1).concat(
-        [Bluebird.resolve(args[args.length - 1])]);
+      bits[pf].pargs = args
+        .slice(0, args.length - 1)
+        .concat([Bluebird.resolve(args[args.length - 1])]);
     });
 
     describe(name, () => {
@@ -130,15 +144,15 @@ describe('promise-aware functionality', () => {
         assert.resolves(
           `${name} should succeed`,
           assert[name].apply(null, pass.pargs || [])
-        )
-      );
+        ));
 
       return it(`rejects for ${fail.descr}`, () =>
-        assert.rejects(
-          `${name} should throw`,
-          assert[name].apply(null, [fail.explain].concat(fail.pargs))
-        ).then(err => assert.include(fail.explain, err.message))
-      );
+        assert
+          .rejects(
+            `${name} should throw`,
+            assert[name].apply(null, [fail.explain].concat(fail.pargs))
+          )
+          .then(err => assert.include(fail.explain, err.message)));
     });
   });
 });
