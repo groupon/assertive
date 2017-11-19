@@ -258,7 +258,9 @@ describe('equal', () => {
   });
 
   it('errors out when passed two non-identical values', () => {
-    throws(() => equal(0, 1));
+    const err = throws(() => equal(0, 1));
+    equal(0, err.expected);
+    equal(1, err.actual);
     throws(() => equal({}, {}));
     throws(() => equal(null, undefined));
     throws(() => equal(false, 0));
@@ -370,8 +372,15 @@ describe('deepEqual', () => {
   });
 
   it('diffs Actual and Expected values', () => {
-    const err = throws(() => deepEqual({ b: 2, a: 1 }, { b: 3, a: 1 }));
-    match(/"a": 1,\n.*- {3}"b": 3.*\n.*\+ {3}"b": 2/, err.message);
+    const expected = { b: 2, a: 1 };
+    const actual = { b: 3, a: 1 };
+    const err = throws(() => deepEqual(expected, actual));
+    match(
+      /^Expected: [\s\S]+"b": 3[\s\S]+ to deepEqual[\s\S]+"b": 2/,
+      err.message
+    );
+    equal(expected, err.expected);
+    equal(actual, err.actual);
   });
 });
 

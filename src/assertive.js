@@ -40,9 +40,6 @@ let assert;
 // eslint-disable-next-line global-require
 const _ = global._ || require('lodash');
 
-// may be stubbed out for browsers
-const jsDiff = require('diff');
-
 const toString = Object.prototype.toString;
 
 let green = x => `\x1B[32m${x}\x1B[39m`;
@@ -55,11 +52,13 @@ if (!(global.process && process.stdout && process.stdout.isTTY)) {
   clear = '';
 }
 
-function error(message, explanation) {
+function error(message, explanation, errProps) {
   if (explanation != null) {
     message = `Assertion failed: ${explanation}\n${clear}${message}`;
   }
-  return new Error(message);
+  const err = new Error(message);
+  if (errProps) _.assign(err, errProps);
+  return err;
 }
 
 function nameNegative(name) {
@@ -290,7 +289,8 @@ const assertSync = {
       throw error(
         `Expected: ${green(stringify(expected))}\nActually: ` +
           `${red(stringify(actual))}`,
-        explanation
+        explanation,
+        { actual, expected }
       );
     }
   },
@@ -322,22 +322,10 @@ ${red(wrongLooks)}`,
         `deepEqual ${green(rightLooks)} failed on something that\n` +
         'serializes to the same result (likely some function)';
     } else {
-      const values = jsDiff.diffJson(actual, expected).map(entry => {
-        let value = entry.value;
-        let prefix = '  ';
-        if (entry.added) prefix = '+ ';
-        else if (entry.removed) prefix = '- ';
-        value = value.replace(/^/gm, prefix).replace(/\n..$/, '');
-        if (entry.added) value = green(value);
-        else if (entry.removed) value = red(value);
-        return value;
-      });
-      message = `Actual: ${red('-')} Expected: ${green('+')}\n${values.join(
-        '\n'
-      )}`;
+      message = `Expected: ${wrongLooks} to deepEqual ${rightLooks}`;
     }
 
-    throw error(message, explanation);
+    throw error(message, explanation, { expected, actual });
   },
 
   include(needle, haystack) {
