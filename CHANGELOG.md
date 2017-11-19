@@ -1,3 +1,9 @@
+### 2.4.0
+
+* stop diffing internally; lean on mocha - **[@dbushong](https://github.com/dbushong)** [#40](https://github.com/groupon/assertive/pull/40)
+  - [`74beefa`](https://github.com/groupon/assertive/commit/74beefae671795e09bae68c107114456fd3b14a3) **feat:** stop diffing internally; lean on mocha
+
+
 ### 2.3.5
 
 * apply latest generator & lint rules - **[@dbushong](https://github.com/dbushong)** [#39](https://github.com/groupon/assertive/pull/39)
