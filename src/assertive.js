@@ -141,9 +141,7 @@ function handleArgs(self, count, args, name, help) {
   if (_.isArray(count) && count.indexOf(argc) !== -1) {
     const n = count[count.length - 1];
     if (argc !== n || _.isString(args[0])) return [name, negated];
-    max = `,\nand when called with ${
-      n
-    } args, the first arg must be a docstring`;
+    max = `,\nand when called with ${n} args, the first arg must be a docstring`;
   }
 
   let wantedArgCount;
@@ -496,9 +494,7 @@ ${name} ${red(stringify(haystack))}, ${needle}`);
     if ((!typeMatches && !negated) || (typeMatches && negated)) {
       value = red(stringify(value));
       const toBeOrNotToBe = `${negated ? 'not ' : ''}to be`;
-      const message = `Expected value ${value} ${toBeOrNotToBe} of type ${
-        stringType
-      }`;
+      const message = `Expected value ${value} ${toBeOrNotToBe} of type ${stringType}`;
       throw error(message, explanation);
     }
   },
