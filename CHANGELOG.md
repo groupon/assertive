@@ -1,3 +1,9 @@
+### 2.4.1
+
+* Apply latest generator - **[@markowsiak](https://github.com/markowsiak)** [#41](https://github.com/groupon/assertive/pull/41)
+  - [`8a01540`](https://github.com/groupon/assertive/commit/8a01540c8722b30f3dbf3b996667cdda9b89f49d) **chore:** Apply latest generator
+
+
 ### 2.4.0
 
 * stop diffing internally; lean on mocha - **[@dbushong](https://github.com/dbushong)** [#40](https://github.com/groupon/assertive/pull/40)

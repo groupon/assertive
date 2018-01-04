@@ -1,6 +1,6 @@
 {
   "name": "assertive",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Assertive is a terse yet expressive assertion library",
   "license": "BSD-3-Clause",
   "main": "lib/assertive.js",
