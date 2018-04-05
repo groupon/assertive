@@ -164,6 +164,7 @@ assert.match(explanation, regexp, needle);
 // fail unless the provided functionThatThrows() calls throw
 // (on non-failures the return value is whatever was thrown)
 const err = assert.throws(functionThatThrows);
+const err = assert.throws(ClassThatThrowsInConstructor);
 const err = assert.throws(explanation, functionThatThrows);
 
 // Assertion failed: ensure that bad inputs throw an error
