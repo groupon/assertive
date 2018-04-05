@@ -60,6 +60,17 @@ describe('throws', () => {
     );
   });
 
+  it('will execute a class constructor', () => {
+    const exception = new Error(68087);
+    class SomeClass {
+      constructor() {
+        //execute me
+        throw exception;
+      }
+    }
+    equal(exception, throws(SomeClass));
+  });
+
   it('includes your helpful explanation, when provided', () => {
     const explanation = 'No error was thrown - this is a problem';
     const err = throws(() => throws(explanation, () => {}));
