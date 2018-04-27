@@ -4,7 +4,6 @@
 
 const Bluebird = require('bluebird');
 const assert = require('../');
-const _ = require('lodash');
 
 const syncFuncs = {
   truthy: {
@@ -115,7 +114,8 @@ const syncFuncs = {
 };
 
 describe('promise-aware functionality', () => {
-  _.forEach(syncFuncs, (bits, name) => {
+  Object.keys(syncFuncs).forEach(name => {
+    const bits = syncFuncs[name];
     const pass = bits.pass;
     const fail = bits.fail;
 

@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const assert = require('../');
 
 // c'mon node6
@@ -22,7 +21,8 @@ const notHasType = assert.notHasType;
 const resolves = assert.resolves;
 const rejects = assert.rejects;
 
-const twoThousand = _.range(1, 2001);
+const twoThousand = [];
+for (let i = 1; i < 2001; i++) twoThousand.push(i);
 
 describe('throws', () => {
   it('errors out when you provide too few or too many args', () => {
@@ -906,7 +906,7 @@ describe('rejects', () => {
   it('rejects a resolved promise', () =>
     equal(
       "Promise wasn't rejected as expected to",
-      rejects(rejects(Promise.resolve(42))).then(_.property('message'))
+      rejects(rejects(Promise.resolve(42))).then(x => x.message)
     ));
 });
 
@@ -917,9 +917,7 @@ describe('resolves', () => {
   it('rejects for a rejected promise', () =>
     include(
       'Promise was rejected despite resolves assertion:\n42',
-      rejects(resolves(Promise.reject(new Error(42)))).then(
-        _.property('message')
-      )
+      rejects(resolves(Promise.reject(new Error(42)))).then(x => x.message)
     ));
 
   it('resolves for a resolved promise', () =>

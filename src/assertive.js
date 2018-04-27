@@ -32,13 +32,9 @@
 
 'use strict';
 
-// eat _ off the global scope, or require it ourselves if missing
-// eslint-disable-next-line no-new-func
-const global = Function('return this')();
 let assert;
 
-// eslint-disable-next-line global-require
-const _ = global._ || require('lodash');
+const isEqual = require('lodash.isequal');
 
 const toString = Object.prototype.toString;
 
@@ -46,18 +42,53 @@ let green = x => `\x1B[32m${x}\x1B[39m`;
 let red = x => `\x1B[31m${x}\x1B[39m`;
 let clear = '\x1b[39;49;00m';
 
-if (!(global.process && process.stdout && process.stdout.isTTY)) {
+if (!(typeof process === 'object' && process.stdout && process.stdout.isTTY)) {
   red = x => `${x}`;
   green = red;
   clear = '';
 }
+
+// simplified isFoo versions to remove lodash/underscore dependency
+const is = ['Array', 'RegExp', 'String', 'Number', 'Date', 'Function'].reduce(
+  (o, t) => ({
+    ...o,
+    [t]: obj => toString.call(obj) === `[object ${t}]`,
+  }),
+  {
+    NaN(obj) {
+      return is.Number(obj) && isNaN(obj);
+    },
+    Object(obj) {
+      const t = typeof obj;
+      return t === 'function' || (t === 'object' && !!obj);
+    },
+    Boolean(obj) {
+      return (
+        obj === true ||
+        obj === false ||
+        toString.call(obj) === '[object Boolean]'
+      );
+    },
+    Undefined(obj) {
+      return obj === undefined;
+    },
+    Null(obj) {
+      return obj === null;
+    },
+  }
+);
+if (Array.isArray) is.Array = Array.isArray;
 
 function error(message, explanation, errProps) {
   if (explanation != null) {
     message = `Assertion failed: ${explanation}\n${clear}${message}`;
   }
   const err = new Error(message);
-  if (errProps) _.assign(err, errProps);
+  if (errProps) {
+    Object.keys(errProps).forEach(prop => {
+      err[prop] = errProps[prop];
+    });
+  }
   return err;
 }
 
@@ -80,22 +111,20 @@ function asRegExp(re) {
 }
 
 function stringifyReplacer(key, val) {
-  if (typeof val === 'function') return toString(val);
-  if (_.isRegExp(val)) return asRegExp(val);
-  if (_.isObject(val) && !_.isArray(val)) {
-    return _(val)
-      .toPairs()
-      .sortBy(0)
-      .fromPairs()
-      .value();
+  if (typeof val === 'function') return toString.call(val);
+  if (is.RegExp(val)) return asRegExp(val);
+  if (is.Object(val) && !is.Array(val)) {
+    return Object.keys(val)
+      .sort()
+      .reduce((o, p) => ({ ...o, [p]: val[p] }), {});
   }
   return val;
 }
 
 function stringify(x) {
   if (x == null) return `${x}`;
-  if (_.isNaN(x)) return 'NaN';
-  if (_.isRegExp(x)) return asRegExp(x);
+  if (is.NaN(x)) return 'NaN';
+  if (is.RegExp(x)) return asRegExp(x);
   if (typeof x === 'symbol') return x.toString();
   const json = JSON.stringify(x, stringifyReplacer, 2);
   const className = x && x.constructor && x.constructor.name;
@@ -129,7 +158,7 @@ function stringify(x) {
 // (that test's semantic explanation)
 function handleArgs(self, count, args, name, help) {
   let negated = false;
-  if (_.isString(self)) {
+  if (is.String(self)) {
     negated = true;
     name = nameNegative(name);
   }
@@ -138,14 +167,14 @@ function handleArgs(self, count, args, name, help) {
   if (argc === count) return [name, negated];
 
   let max = '';
-  if (_.isArray(count) && count.indexOf(argc) !== -1) {
+  if (is.Array(count) && count.indexOf(argc) !== -1) {
     const n = count[count.length - 1];
-    if (argc !== n || _.isString(args[0])) return [name, negated];
+    if (argc !== n || is.String(args[0])) return [name, negated];
     max = `,\nand when called with ${n} args, the first arg must be a docstring`;
   }
 
   let wantedArgCount;
-  if (_.isNumber(count)) {
+  if (is.Number(count)) {
     wantedArgCount = `${count} argument`;
   } else {
     wantedArgCount = count.slice(0, -1).join(', ');
@@ -174,10 +203,10 @@ your usage: ${red(actual)}`;
 }
 
 function type(x) {
-  if (_.isString(x)) return 'String';
-  if (_.isNumber(x)) return 'Number';
-  if (_.isRegExp(x)) return 'RegExp';
-  if (_.isArray(x)) return 'Array';
+  if (is.String(x)) return 'String';
+  if (is.Number(x)) return 'Number';
+  if (is.RegExp(x)) return 'RegExp';
+  if (is.Array(x)) return 'Array';
   throw new TypeError(`unsupported type: ${x}`);
 }
 
@@ -185,7 +214,7 @@ function abbreviate(name, value, threshold) {
   const str = stringify(value);
   if (str.length <= (threshold || 1024)) return str;
   let desc = `length: ${value.length}`;
-  if (_.isArray(value)) desc += `; ${str.length} JSON encoded`;
+  if (is.Array(value)) desc += `; ${str.length} JSON encoded`;
   if (name) name += ' ';
   return `${name}${type(value)}[${desc}]`;
 }
@@ -195,11 +224,11 @@ function getNameOfType(x) {
   switch (false) {
     case !(x == null):
       return `${x}`; // null / undefined
-    case !_.isString(x):
+    case !is.String(x):
       return x;
-    case !_.isFunction(x):
+    case !is.Function(x):
       return x.name;
-    case !_.isNaN(x):
+    case !is.NaN(x):
       return 'NaN';
     default:
       return x;
@@ -229,16 +258,15 @@ function implodeNicely(list, conjunction) {
 }
 
 function isType(value, typeName) {
-  if (typeName === 'Date') return _.isDate(value) && !_.isNaN(+value);
-  return _[`is${typeName[0].toUpperCase()}${typeName.slice(1)}`](value);
+  if (typeName === 'Date') return is.Date(value) && !is.NaN(+value);
+  return is[`${typeName[0].toUpperCase()}${typeName.slice(1)}`](value);
 }
 
 // gets the name of the type that value is an incarnation of
 function getTypeName(value) {
-  return _.find(types, _.partial(isType, value));
+  return types.filter(isType.bind(null, value))[0];
 }
 
-/* eslint-disable prefer-rest-params */
 const assertSync = {
   truthy(bool) {
     const args = handleArgs(this, [1, 2], arguments, 'truthy');
@@ -301,8 +329,8 @@ const assertSync = {
       expected = arguments[1];
       actual = arguments[2];
     }
-    const isEqual = _.isEqual(expected, actual);
-    if ((isEqual && !negated) || (!isEqual && negated)) return;
+    const isEq = isEqual(expected, actual);
+    if ((isEq && !negated) || (!isEq && negated)) return;
 
     const wrongLooks = stringify(actual);
     if (negated) {
@@ -336,12 +364,12 @@ ${red(wrongLooks)}`,
       needle = arguments[1];
       haystack = arguments[2];
     }
-    if (_.isString(haystack)) {
+    if (is.String(haystack)) {
       if (needle === '') {
         const what = negated ? 'always-failing test' : 'no-op test';
         throw error(`${what} detected: all strings contain the empty string!`);
       }
-      if (!_.isString(needle) && !_.isNumber(needle) && !_.isRegExp(needle)) {
+      if (!is.String(needle) && !is.Number(needle) && !is.RegExp(needle)) {
         const problem =
           'needs a RegExp/String/Number needle for a String haystack';
         throw new TypeError(
@@ -349,32 +377,25 @@ ${red(wrongLooks)}`,
             `${name} ${green(stringify(haystack))}, ${red(stringify(needle))}`
         );
       }
-    } else if (!_.isArray(haystack)) {
+    } else if (!is.Array(haystack)) {
       needle = stringify(needle);
       throw new TypeError(`${name} takes a String or Array haystack; you used:
 ${name} ${red(stringify(haystack))}, ${needle}`);
     }
 
-    let contained;
-    if (_.isString(haystack)) {
-      if (_.isRegExp(needle)) {
-        contained = haystack.match(needle);
-      } else {
-        contained = haystack.indexOf(needle) !== -1;
-      }
-    } else {
-      contained = _.includes(haystack, needle);
-    }
+    const contained =
+      is.String(haystack) && is.RegExp(needle)
+        ? haystack.match(needle)
+        : haystack.indexOf(needle) > -1;
 
     if (negated) {
       if (contained) {
-        // eslint-disable-next-line prefer-template
         let message = `${'notInclude expected needle not to be found in ' +
           `haystack\n- needle: ${stringify(needle)}\n haystack: `}${abbreviate(
           '',
           haystack
         )}`;
-        if (_.isString(haystack) && _.isRegExp(needle)) {
+        if (is.String(haystack) && is.RegExp(needle)) {
           message += ', but found:\n';
           if (needle.global) {
             message += contained.map(s => `* ${red(stringify(s))}`).join('\n');
@@ -405,8 +426,8 @@ ${name} ${red(stringify(haystack))}, ${needle}`);
       string = arguments[2];
     }
 
-    const re = _.isRegExp(regexp);
-    if (!re || !_.isString(string)) {
+    const re = is.RegExp(regexp);
+    if (!re || !is.String(string)) {
       string = abbreviate('string', string);
       const oops = re
         ? 'string arg is not a String'
@@ -542,7 +563,7 @@ assert = {
     if (name === 'rejects') {
       return testee.then(() => {
         throw error("Promise wasn't rejected as expected to", explanation);
-      }, _.identity);
+      }, x => x);
     }
     return testee.catch(err => {
       throw error(
@@ -559,21 +580,19 @@ assert = {
 };
 
 // union of promise-specific and promise-aware wrapped synchronous tests
-_.forEach(assertSync || {}, (fn, name) => {
-  assert[name] = function _oneTest() {
-    if (arguments.length === 0) return fn();
-    const args = [].slice.call(arguments);
-    const testee = args.pop();
-    if (isPromiseAlike(testee)) {
-      return testee.then(val => fn(...args, val));
-    }
-    return fn(...args, testee);
-  };
-});
-
-// export as a module to node - or to the global scope, if not
-if (typeof module !== 'undefined' && module && module.exports) {
-  module.exports = assert;
-} else {
-  global.assert = assert;
+if (assertSync) {
+  Object.keys(assertSync).forEach(name => {
+    const fn = assertSync[name];
+    assert[name] = function _oneTest() {
+      if (arguments.length === 0) return fn();
+      const args = [].slice.call(arguments);
+      const testee = args.pop();
+      if (isPromiseAlike(testee)) {
+        return testee.then(val => fn(...args, val));
+      }
+      return fn(...args, testee);
+    };
+  });
 }
+
+module.exports = assert;
