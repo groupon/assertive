@@ -1,3 +1,17 @@
+### 3.0.0
+
+#### Breaking Changes
+
+no longer works without SOME CommonJS compatibility (e.g. node, browserify)
+
+*See: [`58884fe`](https://github.com/groupon/assertive/commit/58884feb9912ad40b32adac84923b85ceb6c7716)*
+
+#### Commits
+
+* no longer depend/break on global `_` - **[@dbushong](https://github.com/dbushong)** [#43](https://github.com/groupon/assertive/pull/43)
+  - [`58884fe`](https://github.com/groupon/assertive/commit/58884feb9912ad40b32adac84923b85ceb6c7716) **feat:** no longer depend/break on global `_`
+
+
 ### 2.4.1
 
 * Apply latest generator - **[@markowsiak](https://github.com/markowsiak)** [#41](https://github.com/groupon/assertive/pull/41)
