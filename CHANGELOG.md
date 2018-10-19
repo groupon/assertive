@@ -1,3 +1,11 @@
+### 3.0.1
+
+* Fix audited packages, support Node 10, drop support for Node 4 - **[@markowsiak](https://github.com/markowsiak)** [#44](https://github.com/groupon/assertive/pull/44)
+  - [`0ef5fe1`](https://github.com/groupon/assertive/commit/0ef5fe195a77ab3ae4ee581425a07e752b976b9a) **chore:** package updates to fix audit
+  - [`71eacfb`](https://github.com/groupon/assertive/commit/71eacfb2f5046de598ec6551271b3826fd2ffe11) **chore:** support node 10, drop node 4
+  - [`87c62fc`](https://github.com/groupon/assertive/commit/87c62fc72acc0ebe249dc54cea9d10f7e0947b7d) **chore:** use npm6 during build
+
+
 ### 3.0.0
 
 #### Breaking Changes
