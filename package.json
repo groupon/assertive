@@ -17,6 +17,10 @@
     "test": "mocha",
     "posttest": "nlm verify"
   },
+  "engines": {
+    "yarn": "0.0.0",
+    "npm": "^6.0.0"
+  },
   "nlm": {
     "license": {
       "files": [
@@ -31,7 +35,7 @@
     "assertive": "^2.1.0",
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.7.0",
     "bluebird": "^3.3.4",
     "eslint": "^4.7.1",
     "eslint-config-groupon": "^6.0.0",
@@ -39,8 +43,8 @@
     "eslint-plugin-mocha": "^4.12.1",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-prettier": "^2.2.0",
-    "mocha": "^3.1.2",
-    "nlm": "^3.0.0",
+    "mocha": "^5.2.0",
+    "nlm": "^3.3.4",
     "prettier": "^1.6.1"
   },
   "author": {
