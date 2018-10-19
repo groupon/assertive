@@ -1,7 +1,6 @@
-/package-lock.json
+/.nyc_output
 node_modules/
 npm-debug.log
 /tmp
-/yarn.lock
 *.log
 *.gz

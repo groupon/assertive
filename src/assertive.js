@@ -486,7 +486,7 @@ ${name} ${red(stringify(haystack))}, ${needle}`);
       return err;
     }
 
-    if (negated) return undefined;
+    if (negated) return null;
     throw error("Didn't throw an exception as expected to", explanation);
   },
 
