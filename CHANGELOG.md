@@ -1,3 +1,11 @@
+### 3.1.0
+
+* typedefs - **[@dbushong](https://github.com/dbushong)** [#45](https://github.com/groupon/assertive/pull/45)
+  - [`6f0920f`](https://github.com/groupon/assertive/commit/6f0920f2831ec76e043902436edce988943a85ba) **chore:** upgrade nlm for proper lock version bumping
+  - [`94f4718`](https://github.com/groupon/assertive/commit/94f471844be70dded32d31fb31b610c6046dd32a) **chore:** audit fixes
+  - [`a58b6b8`](https://github.com/groupon/assertive/commit/a58b6b8fe4abbc4de4d05262541c418f80ae1767) **feat:** add type definitions
+
+
 ### 3.0.1
 
 * Fix audited packages, support Node 10, drop support for Node 4 - **[@markowsiak](https://github.com/markowsiak)** [#44](https://github.com/groupon/assertive/pull/44)
