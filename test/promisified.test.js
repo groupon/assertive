@@ -32,7 +32,10 @@ const syncFuncs = {
 
   deepEqual: {
     pass: {
-      args: [['a', 'b'], ['a', 'b']],
+      args: [
+        ['a', 'b'],
+        ['a', 'b'],
+      ],
       descr: 'a deep equal promise resolution',
     },
     fail: {
