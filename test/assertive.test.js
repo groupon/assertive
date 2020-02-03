@@ -1,25 +1,24 @@
 'use strict';
 
-const assert = require('../');
-
-// c'mon node6
-const truthy = assert.truthy;
-const falsey = assert.falsey;
-const expect = assert.expect;
-const equal = assert.equal;
-const notEqual = assert.notEqual;
-const deepEqual = assert.deepEqual;
-const notDeepEqual = assert.notDeepEqual;
-const include = assert.include;
-const notInclude = assert.notInclude;
-const match = assert.match;
-const notMatch = assert.notMatch;
-const throws = assert.throws;
-const notThrows = assert.notThrows;
-const hasType = assert.hasType;
-const notHasType = assert.notHasType;
-const resolves = assert.resolves;
-const rejects = assert.rejects;
+const {
+  truthy,
+  falsey,
+  expect,
+  equal,
+  notEqual,
+  deepEqual,
+  notDeepEqual,
+  include,
+  notInclude,
+  match,
+  notMatch,
+  throws,
+  notThrows,
+  hasType,
+  notHasType,
+  resolves,
+  rejects,
+} = require('../');
 
 const twoThousand = [];
 for (let i = 1; i < 2001; i++) twoThousand.push(i);
@@ -783,9 +782,65 @@ describe('hasType', () => {
     throws(() => hasType(Array, '[1, 2, 3]'));
   });
 
+  it('recognizes ArrayBuffer', () => {
+    hasType('ArrayBuffer', new ArrayBuffer(1));
+    throws(() => hasType('ArrayBuffer', 'new ArrayBuffer(1)'));
+  });
+
+  it('recognizes Map', () => {
+    hasType('Map', new Map());
+    throws(() => hasType('Map', 'new Map()'));
+  });
+
+  it('recognizes WeakMap', () => {
+    hasType('WeakMap', new WeakMap());
+    throws(() => hasType('WeakMap', 'new WeakMap()'));
+  });
+
+  it('recognizes Set', () => {
+    hasType('Set', new Set());
+    throws(() => hasType('Set', 'new Set()'));
+  });
+
+  it('recognizes WeakSet', () => {
+    hasType('WeakSet', new WeakSet());
+    throws(() => hasType('WeakSet', 'new WeakSet()'));
+  });
+
+  it('recognizes Symbol', () => {
+    hasType('Symbol', Symbol());
+    throws(() => hasType('Symbol', 'Symbol()'));
+  });
+
   it('recognizes Functions', () => {
     hasType(Function, () => {});
-    throws(() => hasType(Function, 'function () { }'));
+    throws(() => hasType(Function, '() => {}'));
+  });
+
+  it('recognizes Promises', () => {
+    hasType(
+      Promise,
+      new Promise(
+        () => {},
+        () => {}
+      )
+    );
+    throws(() => hasType(Promise, 'new Promise(() => {}, () => {})'));
+  });
+
+  it('recognizes async functions', () => {
+    hasType('AsyncFunction', async () => {});
+    throws(() => hasType('AyncFunction', 'async function() {}'));
+  });
+
+  it('recognizes generator functions', () => {
+    hasType('GeneratorFunction', function*() {});
+    throws(() => hasType('GeneratorFunction', 'function*() {}'));
+  });
+
+  it('recognizes dataview functions', () => {
+    hasType('DataView', new DataView(new ArrayBuffer(1)));
+    throws(() => hasType('DataView', 'new DataView(new ArrayBuffer(1))'));
   });
 
   it('recognizes Objects', () => {
@@ -816,6 +871,11 @@ describe('hasType', () => {
   it('recognizes undefined', () => {
     hasType(undefined, undefined);
     throws('Object tested as being undefined', () => hasType(undefined, {}));
+  });
+
+  it('recognizes Error', () => {
+    hasType(Error, Error());
+    throws(() => hasType('Error', 'Error()'));
   });
 });
 
