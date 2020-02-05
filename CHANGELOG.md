@@ -1,3 +1,25 @@
+### 4.0.0
+
+#### Breaking Changes
+
+- drop Node 6 & 8 support
+
+*See: [`3abdb53`](https://github.com/groupon/assertive/commit/3abdb53fd0898ec28b06e938f760a482b75de88c)*
+
+With the source code migrated to ES6, usage in client tests with testemJS & PhantomJS or other ES5 browser are no longer supported.
+
+*See: [`62dfd69`](https://github.com/groupon/assertive/commit/62dfd6903a2a922f99a2daa7c4c7f1f19b74be90)*
+
+#### Commits
+
+* refactor: drop Node 6/8 support; convert to ES6 & upgrade packages - **[@aaarichter](https://github.com/aaarichter)** [#49](https://github.com/groupon/assertive/pull/49)
+  - [`d6a3df2`](https://github.com/groupon/assertive/commit/d6a3df2d06546fb9f95ae9fbbaf1dd88c42b1355) **fix:** npm audit fix
+  - [`3abdb53`](https://github.com/groupon/assertive/commit/3abdb53fd0898ec28b06e938f760a482b75de88c) **refactor:** drop Node 6 & 8 support & upgrade dependencies
+  - [`ea67d42`](https://github.com/groupon/assertive/commit/ea67d42300e085fdee88639f52f1bf3d0b369c8d) **style:** eslint & remove local eslintrc
+  - [`62dfd69`](https://github.com/groupon/assertive/commit/62dfd6903a2a922f99a2daa7c4c7f1f19b74be90) **refactor:** remove babel transpilation
+  - [`c79a0d0`](https://github.com/groupon/assertive/commit/c79a0d06a43ab2810646d1a0010eaa7236062090) **refactor:** remove bluebird
+
+
 ### 3.1.0
 
 * typedefs - **[@dbushong](https://github.com/dbushong)** [#45](https://github.com/groupon/assertive/pull/45)
