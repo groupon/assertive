@@ -13,13 +13,14 @@
     "url": "https://github.com/groupon/assertive/issues"
   },
   "scripts": {
-    "pretest": "eslint src test && babel --source-maps=true --out-dir=lib src",
+    "pretest": "eslint .",
     "test": "mocha",
     "posttest": "nlm verify"
   },
   "engines": {
     "yarn": "0.0.0",
-    "npm": "^6.0.0"
+    "node": ">=10.3.0",
+    "npm": "^6.1.0"
   },
   "nlm": {
     "license": {
@@ -33,20 +34,15 @@
     "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
-    "assertive": "^2.1.0",
-    "babel-cli": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "bluebird": "^3.3.4",
-    "eslint": "^4.7.1",
-    "eslint-config-groupon": "^6.0.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-mocha": "^4.12.1",
-    "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-prettier": "^2.2.0",
-    "mocha": "^5.2.0",
-    "nlm": "^3.6.1",
-    "prettier": "^1.6.1"
+    "eslint": "^6.8.0",
+    "eslint-config-groupon": "^8.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-mocha": "^6.2.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "mocha": "^7.0.1",
+    "nlm": "^3.6.3",
+    "prettier": "^1.19.1"
   },
   "author": {
     "name": "Groupon",

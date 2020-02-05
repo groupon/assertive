@@ -2,7 +2,6 @@
 
 // test the auto-promise-awarified versions of common tests
 
-const Bluebird = require('bluebird');
 const assert = require('../');
 
 const syncFuncs = {
@@ -32,7 +31,10 @@ const syncFuncs = {
 
   deepEqual: {
     pass: {
-      args: [['a', 'b'], ['a', 'b']],
+      args: [
+        ['a', 'b'],
+        ['a', 'b'],
+      ],
       descr: 'a deep equal promise resolution',
     },
     fail: {
@@ -124,19 +126,19 @@ describe('promise-aware functionality', () => {
       const args = bits[pf].args;
       bits[pf].pargs = args
         .slice(0, args.length - 1)
-        .concat([Bluebird.resolve(args[args.length - 1])]);
+        .concat([Promise.resolve(args[args.length - 1])]);
     });
 
     describe(name, () => {
       it('returns a promise when passed a promise', () => {
         assert.expect(
-          assert[name].apply(null, pass.pargs || []) instanceof Bluebird
+          assert[name].apply(null, pass.pargs || []) instanceof Promise
         );
       });
 
       it('does not return a promise when not passed one', () => {
         assert.expect(
-          !(assert[name].apply(null, pass.args || []) instanceof Bluebird)
+          !(assert[name].apply(null, pass.args || []) instanceof Promise)
         );
       });
 
