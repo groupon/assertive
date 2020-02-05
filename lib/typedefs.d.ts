@@ -105,7 +105,7 @@ export function notThrows(msg: string, fn: (...args: any) => any): void;
 type TypeClass =
   null | typeof Date | typeof Array | typeof String | typeof RegExp |
   typeof Boolean | typeof Function | typeof Object | typeof Number |
-  undefined | Number;
+  undefined | Number | String;
 
 export function hasType(expected: TypeClass, actual: any): void;
 export function hasType(msg: string, expected: TypeClass, actual: any): void;
