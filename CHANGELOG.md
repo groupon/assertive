@@ -1,3 +1,17 @@
+### 5.0.0
+
+#### Breaking Changes
+
+`hasType(Function, ...)` no longer throws on async and generator functions
+
+*See: [`980208c`](https://github.com/groupon/assertive/commit/980208c158992da978353b7de7c088da4a1156a1)*
+
+#### Commits
+
+* feat: add new types to hasType - **[@aaarichter](https://github.com/aaarichter)** [#51](https://github.com/groupon/assertive/pull/51)
+  - [`980208c`](https://github.com/groupon/assertive/commit/980208c158992da978353b7de7c088da4a1156a1) **feat:** add new types to hasType
+
+
 ### 4.0.0
 
 #### Breaking Changes
