@@ -176,25 +176,38 @@ const err = assert.throws(explanation, functionThatThrows);
 // same test for a more specific type (listed above) was true
 assert.hasType(<type>, value);
 assert.hasType(explanation, <type>, value);
-assert.hasType(null, value)
-assert.hasType(Date, value)
-assert.hasType(Array, value)
-assert.hasType(String, value)
-assert.hasType(RegExp, value)
-assert.hasType(Boolean, value)
-assert.hasType(Function, value)
-assert.hasType(Object, value)
-assert.hasType(NaN, value)
-assert.hasType(Number, value)
-assert.hasType(undefined, value)
+
+// Examples
+assert.hasType(null, value);
+assert.hasType(undefined, value);
+assert.hasType(Date, value);
+assert.hasType(Array, value);
+assert.hasType(String, value);
+assert.hasType(RegExp, value);
+assert.hasType(Boolean, value);
+assert.hasType(Function, value); // this will be assert for any type of function: normal, async and generator functions
+assert.hasType('AsyncFunction', value);
+assert.hasType('GeneratorFunction', value);
+assert.hasType(Object, value);
+assert.hasType(Promise, value);
+assert.hasType(NaN, value);
+assert.hasType(Number, value);
+assert.hasType(Symbol, value);
+assert.hasType(Map, value);
+assert.hasType(WeakMap, value);
+assert.hasType(Set, value);
+assert.hasType(WeakSet, value);
+assert.hasType(DataView, value);
+assert.hasType(ArrayBuffer, value);
+assert.hasType(Error, value);
 ```
 
 ### `resolves`
 ```javascript
 // Wait for promise to resolve, then resolve if successful, reject otherwise
 // Always returns a promise, unless called with non-promise (not allowed)
-const samePromise = assert.resolves(promise)
-const samePromise = assert.resolves(explanation, promise)
+const samePromise = assert.resolves(promise);
+const samePromise = assert.resolves(explanation, promise);
 
 // Assertion failed: should resolve to good stuff
 // Promise was rejected despite resolves assertion:

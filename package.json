@@ -14,7 +14,7 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "test": "mocha",
+    "test": "nyc mocha",
     "posttest": "nlm verify"
   },
   "engines": {
@@ -42,6 +42,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "mocha": "^7.0.1",
     "nlm": "^3.6.3",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1"
   },
   "author": {
