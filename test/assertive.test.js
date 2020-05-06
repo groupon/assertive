@@ -823,7 +823,7 @@ describe('hasType', () => {
   });
 
   it('recognizes generator functions as general Functions', () => {
-    hasType(Function, function*() {});
+    hasType(Function, function* () {});
     throws(() => hasType(Function, 'function*() {}'));
   });
 
@@ -844,7 +844,7 @@ describe('hasType', () => {
   });
 
   it('recognizes generator functions specifically', () => {
-    hasType('GeneratorFunction', function*() {});
+    hasType('GeneratorFunction', function* () {});
     throws(() => hasType('GeneratorFunction', 'function*() {}'));
   });
 
@@ -951,7 +951,7 @@ describe('notHasType', () => {
 
   it('recognizes generator functions as general non-Functions', () => {
     notHasType(Function, 'function*() {}');
-    throws(() => notHasType(Function, function*() {}));
+    throws(() => notHasType(Function, function* () {}));
   });
 
   it('recognizes non-AsyncFunction specifically', () => {
@@ -961,7 +961,7 @@ describe('notHasType', () => {
 
   it('recognizes generator functions specifically', () => {
     notHasType('GeneratorFunction', 'function*() {}');
-    throws(() => notHasType('GeneratorFunction', function*() {}));
+    throws(() => notHasType('GeneratorFunction', function* () {}));
   });
 
   it('recognizes non-DataView', () => {
