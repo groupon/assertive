@@ -858,6 +858,12 @@ describe('hasType', () => {
     throws('Array tested as being an Object', () => hasType(Object, [1, 2, 3]));
   });
 
+  it('recognizes class Objects', () => {
+    class Test {}
+    hasType(Object, new Test());
+    throws('Array tested as being an Object', () => hasType(Object, [1, 2, 3]));
+  });
+
   it('recognizes Dates', () => {
     hasType(Date, new Date());
     const invalidDate = new Date('Invalid Date');
