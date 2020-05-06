@@ -1,3 +1,10 @@
+### 5.0.1 - 2020-05-06
+
+* fix: class detection - **[@aaarichter](https://github.com/aaarichter)** [#53](https://github.com/groupon/assertive/pull/53)
+  - [`bfc623f`](https://github.com/groupon/assertive/commit/bfc623f046dfc903cadaca387b4f213a94e89734) **fix:** class detection
+  - [`efc60cd`](https://github.com/groupon/assertive/commit/efc60cd30d7c0ba680147e51003d85dfccc0b2d0) **chore:** update dependencies & lint code
+
+
 ### 5.0.0
 
 #### Breaking Changes
