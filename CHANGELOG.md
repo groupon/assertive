@@ -1,3 +1,11 @@
+### 5.0.2 - 2020-07-20
+
+* chore(deps): bump acorn from 7.1.0 to 7.1.1 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#52](https://github.com/groupon/assertive/pull/52)
+  - [`e7dd142`](https://github.com/groupon/assertive/commit/e7dd14245e260e30207c2d1621845123783b888a) **chore:** bump acorn from 7.1.0 to 7.1.1 - see: [7](- [Commits](https://github.com/acornjs/acorn/compare/7)
+* chore(deps): bump lodash from 4.17.15 to 4.17.19 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#54](https://github.com/groupon/assertive/pull/54)
+  - [`3b557b9`](https://github.com/groupon/assertive/commit/3b557b98b7e03b307b8201f2cd191f4f0d6c1368) **chore:** bump lodash from 4.17.15 to 4.17.19 - see: [4](- [Commits](https://github.com/lodash/lodash/compare/4)
+
+
 ### 5.0.1 - 2020-05-06
 
 * fix: class detection - **[@aaarichter](https://github.com/aaarichter)** [#53](https://github.com/groupon/assertive/pull/53)
