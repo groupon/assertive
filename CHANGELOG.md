@@ -1,3 +1,9 @@
+### 5.0.3 - 2021-02-17
+
+* chore(deps): bump ini from 1.3.5 to 1.3.7 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#55](https://github.com/groupon/assertive/pull/55)
+  - [`522f88b`](https://github.com/groupon/assertive/commit/522f88b00b1883fb44d5bce839ffc1aea39b1824) **chore:** bump ini from 1.3.5 to 1.3.7 - see: [v1](- [Commits](https://github.com/isaacs/ini/compare/v1)
+
+
 ### 5.0.2 - 2020-07-20
 
 * chore(deps): bump acorn from 7.1.0 to 7.1.1 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#52](https://github.com/groupon/assertive/pull/52)
