@@ -45,7 +45,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "mocha": "^8.4.0",
-    "nlm": "groupon/nlm#git-merges",
+    "nlm": "github:groupon/nlm#git-merges",
     "prettier": "^2.3.0"
   },
   "author": {
