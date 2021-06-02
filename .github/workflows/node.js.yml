@@ -5,6 +5,7 @@ name: Node.js CI
 
 on:
   push:
+  pull_request:
 
 jobs:
   build:
@@ -24,4 +25,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test
+    - run: DEBUG=nlm* npm test
