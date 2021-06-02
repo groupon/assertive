@@ -174,8 +174,8 @@ const err = assert.throws(explanation, functionThatThrows);
 ```javascript
 // fail unless _.isType(value) is true for given Type, or the
 // same test for a more specific type (listed above) was true
-assert.hasType(<type>, value);
-assert.hasType(explanation, <type>, value);
+assert.hasType('<type>', value);
+assert.hasType(explanation, '<type>', value);
 
 // Examples
 assert.hasType(null, value);
@@ -199,7 +199,7 @@ assert.hasType(Set, value);
 assert.hasType(WeakSet, value);
 assert.hasType(DataView, value);
 assert.hasType(ArrayBuffer, value);
-assert.hasType(Error, value);
+// assert.hasType(Error, value);
 ```
 
 ### `resolves`
