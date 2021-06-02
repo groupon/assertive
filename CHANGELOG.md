@@ -1,3 +1,10 @@
+### v5.0.4 (2021-06-02)
+<a id="v5.0.4"></a>
+#### 🏡 Internal
+
+* [`4cc7e9b`](https://github.com/groupon/assertive/commit/4cc7e9bea8c81e8c09a76008bbb411f4b1101c57) chore: use test nlm (#65) - see: [#65](https://github.com/groupon/assertive/issues/65)
+
+
 ### 5.0.3 - 2021-02-17
 
 * chore(deps): bump ini from 1.3.5 to 1.3.7 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#55](https://github.com/groupon/assertive/pull/55)
