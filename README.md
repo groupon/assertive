@@ -1,13 +1,14 @@
+![GitHub](https://github.com/groupon/assertive/actions/workflows/node.js.yml/badge.svg?branch=main)
 [![nlm-github](https://img.shields.io/badge/github-groupon%2Fassertive%2Fissues-F4D03F?logo=github&logoColor=white)](https://github.com/groupon/assertive/issues)
 ![nlm-node](https://img.shields.io/badge/node-%3E%3D10.13-blue?logo=node.js&logoColor=white)
 ![nlm-version](https://img.shields.io/badge/version-5.0.4-blue?logo=version&logoColor=white)
-assertive
-=========
 
-A terse, yet expressive assertion library
+# assertive
 
-Is Assertive different from other assertion libraries?
-----------------------------------------------------------------------
+> A terse, yet expressive assertion library
+
+## Is Assertive different from other assertion libraries?
+
 
 Assertive aims to make the exact cause of breakage and intent of tests
 as fast and easy to spot as possible, with much attention paid to both
@@ -21,8 +22,7 @@ not just by people reading the code, but also by programmers _writing_
 them, which can make even 100%-test-coverage code fail on behalf of it
 testing for the wrong thing.
 
-Semantic Versioning
-----------------------------------------------------------------------
+## Semantic Versioning
 
 Assertive uses [semver](http://semver.org/) version numbers, though we
 should point out that we may tighten assertion checks in minor version
@@ -40,8 +40,7 @@ coverage against this type of error with a random minor version update
 you should pin a version you like in your `package.json` rather than a
 version range.
 
-Usage
-----------------------------------------------------------------------
+## Usage
 
 Each assertion lets you state a condition and an optional help message
 about what semantics your test asserts, which gets presented first, if
@@ -49,7 +48,7 @@ the assertion fails. (This is generally much more useful than messages
 along the lines of "expected true to be false", especially when it may
 be hard to tell later what the intended purpose of a test really was.)
 
-Besides failing when what each assertion guards against, they also all
+Besides, failing when what each assertion guards against, they also all
 fail if you pass too few, too many or otherwise illegal parameters, as
 when a tired programmer expects "expect" to compare the two parameters
 he passed in some way and trip when they mismatch, though all it would
@@ -233,7 +232,6 @@ const promiseForErr = assert.rejects(explanation, promise)
 Versions of the above functions taking the same arguments, but asserting
 the opposite outcome. The assertion failure messages are just as helpful.
 
-License
-----------------------------------------------------------------------
+## License
 
 [BSD 3-Clause open source license](LICENSE)
