@@ -1,3 +1,15 @@
+### v5.0.5 (2021-06-03)
+<a id="v5.0.5"></a>
+#### 🐛 Bug Fixes
+
+* [#66](https://github.com/groupon/assertive/pull/66) fix(actions): add new templates ([@aaarichter](https://github.com/aaarichter))
+
+#### 🏡 Internal
+
+* [#67](https://github.com/groupon/assertive/pull/67) test: debug nlm ([@aaarichter](https://github.com/aaarichter))
+* [#68](https://github.com/groupon/assertive/pull/68) test: get git history on release ([@aaarichter](https://github.com/aaarichter))
+
+
 ### v5.0.4 (2021-06-02)
 <a id="v5.0.4"></a>
 #### 🏡 Internal
